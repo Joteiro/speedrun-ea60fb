@@ -1,0 +1,59 @@
+name: Actualizar dashboard Oura
+
+on:
+  schedule:
+    - cron: "0 8 * * *"   # 08:00 UTC (~05:00 Argentina) todos los días
+  workflow_dispatch: {}    # permite ejecutarlo a mano desde la pestaña Actions
+
+permissions:
+  contents: write          # para commitear docs/index.html
+
+concurrency:
+  group: update-dashboard
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias
+        run: pip install requests
+
+      - name: Refrescar token de Oura
+        id: refresh
+        env:
+          OURA_CLIENT_ID: ${{ secrets.OURA_CLIENT_ID }}
+          OURA_CLIENT_SECRET: ${{ secrets.OURA_CLIENT_SECRET }}
+          OURA_REFRESH_TOKEN: ${{ secrets.OURA_REFRESH_TOKEN }}
+        run: python cloud_refresh.py
+
+      - name: Re-guardar el nuevo refresh token (Oura rota el token)
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+          NEW_RT: ${{ steps.refresh.outputs.refresh_token }}
+        run: gh secret set OURA_REFRESH_TOKEN --body "$NEW_RT"
+
+      - name: Regenerar dashboard
+        env:
+          OURA_ACCESS_TOKEN: ${{ env.OURA_ACCESS_TOKEN }}
+        run: python build_dashboard.py --no-push
+
+      - name: Commit y push si hay cambios
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/index.html
+          if git diff --cached --quiet; then
+            echo "Sin cambios en el dashboard."
+          else
+            git commit -m "Actualizar dashboard ($(date -u +%Y-%m-%d))"
+            git push
+          fi

@@ -3,6 +3,7 @@ Cliente OAuth2 + API para Oura Ring (API v2).
 Maneja el token de acceso y lo renueva solo usando el refresh_token.
 """
 import json
+import os
 import time
 from pathlib import Path
 
@@ -24,8 +25,14 @@ SCOPES = (
 
 
 def load_env():
-    """Carga variables desde .env (parser simple, sin dependencias)."""
+    """Carga variables desde .env (parser simple, sin dependencias).
+
+    En la nube (GitHub Actions) no hay .env: las credenciales vienen por
+    variables de entorno, asi que devolvemos un dict vacio sin fallar.
+    """
     env = {}
+    if not ENV_PATH.exists():
+        return env
     for line in ENV_PATH.read_text(encoding="utf-8").splitlines():
         line = line.strip()
         if not line or line.startswith("#") or "=" not in line:
@@ -36,9 +43,16 @@ def load_env():
 
 
 ENV = load_env()
-CLIENT_ID = ENV["OURA_CLIENT_ID"]
-CLIENT_SECRET = ENV["OURA_CLIENT_SECRET"]
-REDIRECT_URI = ENV["OURA_REDIRECT_URI"]
+
+
+def _cfg(key, default=None):
+    """Prioriza variable de entorno (nube), luego .env (local)."""
+    return os.environ.get(key) or ENV.get(key) or default
+
+
+CLIENT_ID = _cfg("OURA_CLIENT_ID")
+CLIENT_SECRET = _cfg("OURA_CLIENT_SECRET")
+REDIRECT_URI = _cfg("OURA_REDIRECT_URI", "http://localhost:8000/callback")
 
 
 def save_tokens(tokens: dict):
@@ -72,7 +86,12 @@ def exchange_code(code: str) -> dict:
     return tokens
 
 
-def refresh_tokens(refresh_token: str) -> dict:
+def refresh_access(refresh_token: str) -> dict:
+    """Refresca el token SIN guardar en disco (útil en la nube).
+
+    Oura ROTA el refresh_token en cada uso (single-use): la respuesta trae
+    uno nuevo que hay que persistir para la próxima corrida.
+    """
     resp = requests.post(
         TOKEN_URL,
         data={
@@ -85,14 +104,27 @@ def refresh_tokens(refresh_token: str) -> dict:
     )
     resp.raise_for_status()
     tokens = resp.json()
-    # Oura no siempre devuelve un refresh_token nuevo; conservar el anterior
-    tokens.setdefault("refresh_token", refresh_token)
+    tokens.setdefault("refresh_token", refresh_token)  # por si no rotara
+    return tokens
+
+
+def refresh_tokens(refresh_token: str) -> dict:
+    """Refresca y guarda en tokens.json (modo local)."""
+    tokens = refresh_access(refresh_token)
     save_tokens(tokens)
     return tokens
 
 
 def get_access_token() -> str:
-    """Devuelve un access_token válido, renovándolo si hace falta."""
+    """Devuelve un access_token válido.
+
+    - Nube: si existe OURA_ACCESS_TOKEN en el entorno, lo usa directo.
+    - Local: lee tokens.json y lo renueva si expiró.
+    """
+    env_token = os.environ.get("OURA_ACCESS_TOKEN")
+    if env_token:
+        return env_token
+
     tokens = load_tokens()
     if not tokens:
         raise RuntimeError(

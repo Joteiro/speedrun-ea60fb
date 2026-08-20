@@ -2,3 +2,6 @@
 tokens.json
 data/
 *.png
+__pycache__/
+*.pyc
+update.log

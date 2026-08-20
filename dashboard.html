@@ -1,0 +1,461 @@
+<title>Rumbo a la Speed Run</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
+
+<style>
+  :root {
+    --bg:        #F6F3EE;
+    --surface:   #FFFFFF;
+    --surface-2: #F1ECE4;
+    --ink:       #1E1B17;
+    --ink-soft:  #6A6157;
+    --ink-faint: #9A9084;
+    --border:    #E4DCD0;
+    --accent:    #E23E57;   /* frecuencia cardiaca */
+    --accent-dim:#F7D9DE;
+    --easy:      #1F9E77;   /* zona facil / bien */
+    --easy-bg:   #DBF0E7;
+    --mod:       #D69100;   /* moderado / tempo */
+    --mod-bg:    #F6E7C4;
+    --hard:      #D6344B;   /* muy fuerte */
+    --hard-bg:   #F7D8DD;
+    --shadow:    0 1px 3px rgba(40,30,20,.06), 0 6px 20px rgba(40,30,20,.05);
+  }
+  :root:not([data-theme="light"]) {
+    @media (prefers-color-scheme: dark) {
+      --bg:        #14120E;
+      --surface:   #201D18;
+      --surface-2: #2A261F;
+      --ink:       #EFEAE1;
+      --ink-soft:  #B3A997;
+      --ink-faint: #7C7264;
+      --border:    #342F27;
+      --accent:    #FF6079;
+      --accent-dim:#3A2229;
+      --easy:      #3CC494;
+      --easy-bg:   #16332A;
+      --mod:       #E8B23E;
+      --mod-bg:    #352C15;
+      --hard:      #FF5A72;
+      --hard-bg:   #3A1D23;
+      --shadow:    0 1px 3px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.3);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:        #14120E;
+    --surface:   #201D18;
+    --surface-2: #2A261F;
+    --ink:       #EFEAE1;
+    --ink-soft:  #B3A997;
+    --ink-faint: #7C7264;
+    --border:    #342F27;
+    --accent:    #FF6079;
+    --accent-dim:#3A2229;
+    --easy:      #3CC494;
+    --easy-bg:   #16332A;
+    --mod:       #E8B23E;
+    --mod-bg:    #352C15;
+    --hard:      #FF5A72;
+    --hard-bg:   #3A1D23;
+    --shadow:    0 1px 3px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.3);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Barlow", system-ui, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 16px 64px; }
+
+  /* ---- Header ---- */
+  header {
+    position: sticky; top: 0; z-index: 10;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+  .head-inner { max-width: 760px; margin: 0 auto; padding: 14px 16px; }
+  .kicker {
+    font-family: "Barlow Semi Condensed", sans-serif;
+    text-transform: uppercase; letter-spacing: .12em;
+    font-size: .72rem; font-weight: 600; color: var(--accent);
+  }
+  h1 {
+    font-family: "Barlow Semi Condensed", sans-serif;
+    font-weight: 700; font-size: 1.5rem; line-height: 1.05;
+    margin: 2px 0 0; text-wrap: balance;
+  }
+  .head-meta {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;
+    font-size: .82rem; color: var(--ink-soft);
+  }
+  .tag {
+    background: var(--surface-2); border: 1px solid var(--border);
+    padding: 2px 9px; border-radius: 999px; font-weight: 500;
+  }
+  #tag-countdown {
+    background: var(--accent); color: #fff; border-color: transparent;
+    font-weight: 600; font-family: "Barlow Semi Condensed", sans-serif;
+  }
+
+  section { margin-top: 30px; }
+  .sec-title {
+    font-family: "Barlow Semi Condensed", sans-serif;
+    font-weight: 600; font-size: 1.12rem; margin: 0 0 3px;
+    display: flex; align-items: baseline; gap: 8px;
+  }
+  .sec-sub { font-size: .86rem; color: var(--ink-soft); margin: 0 0 14px; }
+
+  /* ---- KPI grid ---- */
+  .kpis { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; }
+  @media (min-width: 560px) { .kpis { grid-template-columns: repeat(4,1fr); } }
+  .kpi {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 14px; box-shadow: var(--shadow);
+  }
+  .kpi .n {
+    font-family: "Barlow Semi Condensed", sans-serif;
+    font-weight: 700; font-size: 1.9rem; line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .kpi .n small { font-size: .9rem; font-weight: 600; color: var(--ink-soft); }
+  .kpi .l { font-size: .76rem; color: var(--ink-soft); margin-top: 5px; }
+  .kpi.accent .n { color: var(--accent); }
+
+  /* ---- Intensity chart ---- */
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; padding: 16px; box-shadow: var(--shadow);
+  }
+  .scale-legend {
+    display: flex; gap: 12px; flex-wrap: wrap;
+    font-size: .74rem; color: var(--ink-soft); margin-bottom: 14px;
+  }
+  .scale-legend span { display: inline-flex; align-items: center; gap: 5px; }
+  .dot { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+  .run { margin-bottom: 13px; }
+  .run:last-child { margin-bottom: 0; }
+  .run-top {
+    display: flex; justify-content: space-between; align-items: baseline;
+    gap: 8px; margin-bottom: 5px;
+  }
+  .run-date {
+    font-family: "Barlow Semi Condensed", sans-serif; font-weight: 600;
+    font-size: .9rem;
+  }
+  .run-date span { color: var(--ink-faint); font-weight: 500; margin-left: 6px; }
+  .run-hr {
+    font-family: "Barlow Semi Condensed", sans-serif;
+    font-variant-numeric: tabular-nums; font-weight: 700; font-size: .95rem;
+  }
+  .run-hr b { font-weight: 700; }
+  .run-hr small { color: var(--ink-faint); font-weight: 500; }
+  .track {
+    position: relative; height: 16px; border-radius: 8px;
+    background: var(--surface-2); overflow: hidden;
+  }
+  .fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 8px; opacity: .9; }
+  .easy-line {
+    position: absolute; top: -3px; bottom: -3px; width: 2px;
+    background: var(--ink); opacity: .35;
+  }
+  .run-tag {
+    font-size: .72rem; font-weight: 600; padding: 1px 8px; border-radius: 999px;
+    white-space: nowrap;
+  }
+  .t-easy { background: var(--easy-bg); color: var(--easy); }
+  .t-mod  { background: var(--mod-bg);  color: var(--mod); }
+  .t-hard { background: var(--hard-bg); color: var(--hard); }
+  .easy-note {
+    font-size: .74rem; color: var(--ink-soft); margin-top: 12px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .mini-line { display:inline-block; width: 16px; height: 2px; background: var(--ink); opacity:.35; }
+
+  /* ---- Insight callout ---- */
+  .callout {
+    background: var(--accent-dim); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    border-radius: 14px; padding: 14px 16px; font-size: .9rem;
+  }
+  .callout b { color: var(--accent); }
+
+  /* ---- Zones table ---- */
+  .zones { display: flex; flex-direction: column; gap: 8px; }
+  .zone {
+    display: grid; grid-template-columns: 40px 1fr auto; gap: 12px; align-items: center;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 10px 14px;
+  }
+  .zone .zbar { width: 6px; height: 30px; border-radius: 3px; }
+  .zone .zn { font-family:"Barlow Semi Condensed",sans-serif; font-weight:600; }
+  .zone .zd { font-size: .78rem; color: var(--ink-soft); }
+  .zone .zr {
+    font-family:"Barlow Semi Condensed",sans-serif; font-weight:700;
+    font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap;
+  }
+  .zone .zr small { color: var(--ink-faint); font-weight:500; display:block; font-size:.72rem; }
+
+  /* ---- Plan phases ---- */
+  .phase {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; margin-bottom: 10px; overflow: hidden;
+  }
+  .phase[open] { box-shadow: var(--shadow); }
+  .phase summary {
+    list-style: none; cursor: pointer; padding: 14px 16px;
+    display: grid; grid-template-columns: 8px 1fr auto; gap: 12px; align-items: center;
+  }
+  .phase summary::-webkit-details-marker { display: none; }
+  .pbar { width: 8px; height: 38px; border-radius: 4px; }
+  .p-name { font-family:"Barlow Semi Condensed",sans-serif; font-weight:600; font-size: 1rem; }
+  .p-obj { font-size: .8rem; color: var(--ink-soft); }
+  .p-weeks {
+    font-family:"Barlow Semi Condensed",sans-serif; font-weight:600;
+    font-size:.8rem; color: var(--ink-soft); text-align:right; white-space:nowrap;
+  }
+  .p-body { padding: 0 16px 14px; }
+  .sess { border-top: 1px solid var(--border); padding: 11px 0; }
+  .sess:first-child { border-top: none; }
+  .sess h4 {
+    font-family:"Barlow Semi Condensed",sans-serif; margin:0 0 3px;
+    font-size:.86rem; font-weight:600;
+  }
+  .sess p { margin: 0; font-size: .84rem; color: var(--ink-soft); white-space: pre-line; }
+  .now-badge {
+    display:inline-block; font-size:.66rem; font-weight:700; letter-spacing:.06em;
+    text-transform:uppercase; color: var(--surface); background: var(--accent);
+    padding: 1px 7px; border-radius: 999px; margin-left: 6px; vertical-align: middle;
+  }
+
+  footer {
+    margin-top: 34px; padding-top: 18px; border-top: 1px solid var(--border);
+    font-size: .8rem; color: var(--ink-soft);
+  }
+  footer code {
+    background: var(--surface-2); padding: 1px 6px; border-radius: 5px;
+    font-size: .78rem;
+  }
+  a { color: var(--accent); }
+  @media (prefers-reduced-motion: no-preference) {
+    .fill { transition: width .5s ease; }
+  }
+</style>
+
+<header>
+  <div class="head-inner">
+    <div class="kicker">Zara Athleticz Speed Run · 10K</div>
+    <h1>Rumbo a la Speed Run</h1>
+    <div class="head-meta">
+      <span class="tag" id="tag-countdown">—</span>
+      <span class="tag" id="tag-updated">—</span>
+      <span class="tag">FC máx est. 191 ppm</span>
+      <span class="tag">Objetivo: ~50′</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section>
+    <div class="kpis" id="kpis"></div>
+  </section>
+
+  <section>
+    <h2 class="sec-title">Control de intensidad ❤</h2>
+    <p class="sec-sub">Tu dato fiable de Oura. La línea marca el techo del rodaje fácil (≈145 ppm). La mayoría de tus salidas deberían quedar a su izquierda.</p>
+    <div class="card">
+      <div class="scale-legend">
+        <span><i class="dot" style="background:var(--easy)"></i>Fácil ≤145</span>
+        <span><i class="dot" style="background:var(--mod)"></i>Moderado 146–160</span>
+        <span><i class="dot" style="background:var(--hard)"></i>Muy fuerte &gt;160</span>
+      </div>
+      <div id="runs"></div>
+      <div class="easy-note"><span class="mini-line"></span> línea de rodaje fácil · escala 100–191 ppm</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="callout" id="callout"></div>
+  </section>
+
+  <section>
+    <h2 class="sec-title">Tus zonas de frecuencia cardíaca</h2>
+    <p class="sec-sub">Calculadas sobre 191 ppm de FC máxima estimada. Usalas para saber a qué pulso hacer cada sesión.</p>
+    <div class="zones" id="zones"></div>
+  </section>
+
+  <section>
+    <h2 class="sec-title">Plan · 13 semanas</h2>
+    <p class="sec-sub">Tocá cada fase para ver las sesiones. 2 sesiones fijas + 1 opcional por semana.</p>
+    <div id="plan"></div>
+  </section>
+
+  <footer>
+    <p><b>Sobre los datos:</b> el anillo Oura no tiene GPS, así que distancia y ritmo son estimados y poco fiables para correr (por eso muchas salidas no muestran ritmo). La <b>frecuencia cardíaca sí es precisa</b> — es la base de este panel. Para ritmo/distancia reales, conectá una app con GPS.</p>
+    <p style="margin-top:10px">Para actualizar con tus nuevas salidas, corré en la carpeta del proyecto:<br>
+    <code>python 2_fetch.py &amp;&amp; python 3_analyze.py</code><br>y pedime que republique el dashboard.</p>
+  </footer>
+</div>
+
+<script>
+  const MAXHR = 191;
+
+  /* DATA_START — generado por build_dashboard.py, no editar a mano */
+  const DATA_DATE = "20 ago 2026";
+  const runs = [
+    { fecha:"03 ene", dist:4.9,  ritmo:"6:32", fc:141 },
+    { fecha:"10 ene", dist:null, ritmo:null,   fc:110 },
+    { fecha:"10 ene", dist:null, ritmo:null,   fc:140 },
+    { fecha:"04 feb", dist:null, ritmo:null,   fc:151 },
+    { fecha:"10 feb", dist:null, ritmo:null,   fc:153 },
+    { fecha:"24 feb", dist:null, ritmo:null,   fc:137 },
+    { fecha:"26 feb", dist:null, ritmo:null,   fc:153 },
+    { fecha:"11 mar", dist:null, ritmo:null,   fc:142 },
+    { fecha:"29 mar", dist:null, ritmo:null,   fc:155 },
+    { fecha:"06 abr", dist:4.72, ritmo:"7:00", fc:144 },
+    { fecha:"09 abr", dist:null, ritmo:null,   fc:125 },
+    { fecha:"21 abr", dist:null, ritmo:null,   fc:172 },
+    { fecha:"28 abr", dist:null, ritmo:null,   fc:139 },
+    { fecha:"06 may", dist:null, ritmo:null,   fc:133 },
+    { fecha:"16 jun", dist:5.77, ritmo:"7:27", fc:146 },
+    { fecha:"04 ago", dist:3.63, ritmo:"6:53", fc:168 },
+    { fecha:"17 ago", dist:2.65, ritmo:null,   fc:145 },
+  ];
+  /* DATA_END */
+
+  const pct = bpm => Math.max(0, Math.min(100, (bpm - 100) / (MAXHR - 100) * 100));
+  const cls = fc => fc <= 145 ? "easy" : (fc <= 160 ? "mod" : "hard");
+  const clr = c => c === "easy" ? "var(--easy)" : c === "mod" ? "var(--mod)" : "var(--hard)";
+  const label = c => c === "easy" ? "Zona fácil ✓" : c === "mod" ? "Moderado" : "Muy fuerte ⚠";
+
+  // ---- KPIs ----
+  const withFc = runs.filter(r => r.fc);
+  const easyCount = withFc.filter(r => r.fc <= 145).length;
+  const avgFc = Math.round(withFc.reduce((a,r)=>a+r.fc,0)/withFc.length);
+  const paces = runs.filter(r=>r.ritmo).map(r=>r.ritmo);
+  const bestPace = paces.map(p=>{const[m,s]=p.split(":").map(Number);return[m*60+s,p];})
+                        .sort((a,b)=>a[0]-b[0])[0][1];
+  const kpis = [
+    { n: runs.length, l: "Runnings registrados" },
+    { n: avgFc, unit:"ppm", l: "FC media global", accent:true },
+    { n: `${easyCount}/${withFc.length}`, l: "En zona fácil (≤145)" },
+    { n: bestPace, unit:"/km", l: "Mejor ritmo fiable" },
+  ];
+  document.getElementById("kpis").innerHTML = kpis.map(k => `
+    <div class="kpi ${k.accent?'accent':''}">
+      <div class="n">${k.n}${k.unit?` <small>${k.unit}</small>`:''}</div>
+      <div class="l">${k.l}</div>
+    </div>`).join("");
+
+  // ---- Runs chart ----
+  const easyPct = pct(145);
+  document.getElementById("runs").innerHTML = runs.map(r => {
+    const c = cls(r.fc);
+    const dist = r.dist ? `<span>${r.dist} km${r.ritmo?` · ${r.ritmo}/km`:''}</span>` : `<span>sin GPS fiable</span>`;
+    return `
+    <div class="run">
+      <div class="run-top">
+        <div class="run-date">${r.fecha}${dist}</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="run-hr"><b>${r.fc}</b> <small>ppm · ${Math.round(r.fc/MAXHR*100)}%</small></span>
+          <span class="run-tag t-${c}">${label(c)}</span>
+        </div>
+      </div>
+      <div class="track">
+        <div class="fill" style="width:${pct(r.fc)}%;background:${clr(c)}"></div>
+        <div class="easy-line" style="left:${easyPct}%"></div>
+      </div>
+    </div>`;
+  }).join("");
+
+  // ---- Callout ----
+  const tooHard = withFc.length - easyCount;
+  document.getElementById("callout").innerHTML =
+    `<b>Lectura:</b> ${easyCount} de tus ${withFc.length} salidas quedaron en zona fácil, pero ${tooHard} se fueron de intensidad
+     — incluida la última medida a ritmo real (04 ago, <b>168 ppm = 88%</b>). Eso es esfuerzo de umbral, no rodaje.
+     Para la Fase Base, frená hasta que la FC media quede por debajo de ~145 aunque se sienta lento. Ahí se construye la base.`;
+
+  // ---- Zones ----
+  const zones = [
+    { n:"Z1 · Recuperación", d:"Regenerativo, muy suave",      lo:0.50, hi:0.60, c:"#6B7A8F" },
+    { n:"Z2 · Fácil",        d:"Aquí van la mayoría de tus km", lo:0.60, hi:0.75, c:"var(--easy)" },
+    { n:"Z3 · Tempo",        d:"Incómodo sostenible",           lo:0.75, hi:0.85, c:"var(--mod)" },
+    { n:"Z4 · Umbral",       d:"Intervalos, ritmo de carrera",  lo:0.85, hi:0.90, c:"#E2662E" },
+    { n:"Z5 · Máximo",       d:"Solo tramos cortos",            lo:0.90, hi:1.00, c:"var(--hard)" },
+  ];
+  document.getElementById("zones").innerHTML = zones.map(z => {
+    const lo = Math.round(z.lo*MAXHR), hi = Math.round(z.hi*MAXHR);
+    return `<div class="zone">
+      <div class="zbar" style="background:${z.c}"></div>
+      <div><div class="zn">${z.n}</div><div class="zd">${z.d}</div></div>
+      <div class="zr">${lo}–${hi}<small>${Math.round(z.lo*100)}–${Math.round(z.hi*100)}%</small></div>
+    </div>`;
+  }).join("");
+
+  // ---- Plan ----
+  const plan = [
+    { name:"Base", weeks:"Sem 1–4", obj:"Acostumbrar el cuerpo a correr 2–3×/sem", c:"var(--easy)", now:true,
+      sessions:[
+        ["A · Rodaje fácil","4,5–5 km a 6:10–6:40/km. Sensación: podrías mantener una conversación. Deliberadamente lento."],
+        ["B · Rodaje + aceleraciones","4–5 km fáciles + al final 4 × 20″ rápidos (no sprint), 60–90″ caminando entre cada uno."],
+        ["C · Opcional","30–40 min muy suaves. Si tuviste partido intenso de tenis, saltala."],
+        ["Sem 3–4","Subir a 5–5,5 km fáciles. En B: 3 × 5 min a ~5:35–5:45/km con 2 min suaves. Que 5–6 km se sientan normales."],
+      ]},
+    { name:"Desarrollo", weeks:"Sem 5–8", obj:"Aumentar distancia + introducir tempo", c:"var(--mod)",
+      sessions:[
+        ["Tempo (nuevo)","No es sprint: ritmo incómodo pero sostenible ~30–50 min. Es la clave para acercarte a 5:00/km."],
+        ["Sem 5–6","B: 3 × 7 min a 5:25–5:35, luego 2 × 10 min a 5:20–5:30. Rodajes fáciles a 6:00–6:30."],
+        ["Sem 7","Bajar carga: 5 × 4 min a 5:10–5:20 con 2 min de recuperación."],
+        ["Sem 8 · TEST 5K","Calentar 10–15 min + 3–4 progresivos, luego mejor 5K controlado. No salir a 5:00 desde el metro 1. Este número decide todo."],
+      ]},
+    { name:"Específica 10K", weeks:"Sem 9–11", obj:"Trabajar ritmos cercanos a 5:00/km", c:"#E2662E",
+      sessions:[
+        ["Decisión","5K ≈ 24:30–25:00 → 50′ razonable. 25:30–26:00 → posible pero agresivo. >26:30 → objetivo más conservador. ~24 → apuntar más alto."],
+        ["Enfoque","Sesiones a ritmo objetivo de carrera, volumen sostenido, un rodaje largo fácil por semana."],
+      ]},
+    { name:"Puesta a punto", weeks:"Sem 12–13", obj:"Reducir volumen y llegar fresco", c:"var(--accent)",
+      sessions:[
+        ["Tapering","Bajar el volumen manteniendo algo de intensidad corta. Priorizar descanso, sueño y recovery de Oura."],
+        ["Semana de carrera","Salidas muy cortas y suaves, un par de aceleraciones para activar. Llegar descansado, no cansado."],
+      ]},
+  ];
+  document.getElementById("plan").innerHTML = plan.map((p,i) => `
+    <details class="phase" ${i===0?'open':''}>
+      <summary>
+        <div class="pbar" style="background:${p.c}"></div>
+        <div>
+          <div class="p-name">${p.name}${p.now?'<span class="now-badge">Estás acá</span>':''}</div>
+          <div class="p-obj">${p.obj}</div>
+        </div>
+        <div class="p-weeks">${p.weeks}</div>
+      </summary>
+      <div class="p-body">
+        ${p.sessions.map(s=>`<div class="sess"><h4>${s[0]}</h4><p>${s[1]}</p></div>`).join("")}
+      </div>
+    </details>`).join("");
+
+  document.getElementById("tag-updated").textContent = "Datos al " + DATA_DATE;
+
+  // ---- Cuenta regresiva en vivo ----
+  const RACE = new Date("2026-11-01T00:00:00");
+  const today = new Date();
+  const days = Math.max(0, Math.ceil((RACE - today) / 86400000));
+  const weeks = Math.floor(days / 7);
+  document.getElementById("tag-countdown").textContent =
+    `🏁 1 nov · faltan ${days} días`;
+
+  // Nota: el plan es de 13 semanas pero quedan menos; avisar en el plan.
+  const planSub = document.querySelector("#plan").previousElementSibling;
+  if (weeks < 13) {
+    planSub.innerHTML =
+      `Quedan <b>~${weeks} semanas</b> hasta la carrera y el plan completo es de 13, ` +
+      `así que hay que comprimirlo (fases más cortas o arrancar directo en Desarrollo). ` +
+      `Tocá cada fase para ver las sesiones.`;
+  }
+</script>
