@@ -103,6 +103,14 @@
     background: var(--accent); color: #fff; border-color: transparent;
     font-weight: 600; font-family: "Barlow Semi Condensed", sans-serif;
   }
+  .btn-refresh {
+    cursor: pointer; color: var(--ink); font: inherit; font-weight: 600;
+    font-family: "Barlow Semi Condensed", sans-serif; line-height: 1.4;
+    transition: background .15s, border-color .15s;
+  }
+  .btn-refresh:hover { background: var(--accent); color: #fff; border-color: transparent; }
+  .btn-refresh:active { transform: translateY(1px); }
+  .btn-refresh:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
   section { margin-top: 30px; }
   .sec-title {
@@ -256,6 +264,8 @@
       <span class="tag" id="tag-updated">—</span>
       <span class="tag">FC máx est. 191 ppm</span>
       <span class="tag">Objetivo: ~50′</span>
+      <button class="tag btn-refresh" id="btn-refresh" type="button"
+              title="Recargar con los últimos datos publicados">🔄 Actualizar</button>
     </div>
   </div>
 </header>
@@ -298,8 +308,10 @@
 
   <footer>
     <p><b>Sobre los datos:</b> el anillo Oura no tiene GPS, así que distancia y ritmo son estimados y poco fiables para correr (por eso muchas salidas no muestran ritmo). La <b>frecuencia cardíaca sí es precisa</b> — es la base de este panel. Para ritmo/distancia reales, conectá una app con GPS.</p>
-    <p style="margin-top:10px">Para actualizar con tus nuevas salidas, corré en la carpeta del proyecto:<br>
-    <code>python 2_fetch.py &amp;&amp; python 3_analyze.py</code><br>y pedime que republique el dashboard.</p>
+    <p style="margin-top:10px"><b>Actualización:</b> este panel se regenera solo cada día (~05:00 hora Argentina) desde tu anillo Oura, en la nube. Las salidas nuevas de Oura pueden tardar unas horas en aparecer.</p>
+    <p style="margin-top:10px">¿No ves tu última salida y ya está sincronizada en la app de Oura?
+    <a href="https://github.com/Joteiro/speedrun-ea60fb/actions/workflows/update.yml" target="_blank" rel="noopener">Forzar recálculo →</a>
+    (te lleva a GitHub; tocá <b>Run workflow</b>).</p>
   </footer>
 </div>
 
@@ -308,6 +320,7 @@
 
   /* DATA_START — generado por build_dashboard.py, no editar a mano */
   const DATA_DATE = "20 ago 2026";
+  const DATA_BUILT = "";
   const runs = [
     { fecha:"03 ene", dist:4.9,  ritmo:"6:32", fc:141 },
     { fecha:"10 ene", dist:null, ritmo:null,   fc:110 },
@@ -440,7 +453,23 @@
       </div>
     </details>`).join("");
 
-  document.getElementById("tag-updated").textContent = "Datos al " + DATA_DATE;
+  // ---- Frescura del dato + botón de recarga ----
+  function freshText() {
+    if (typeof DATA_BUILT === "undefined" || !DATA_BUILT) return "Datos al " + DATA_DATE;
+    const built = new Date(DATA_BUILT);
+    const mins = Math.round((Date.now() - built) / 60000);
+    let rel;
+    if (mins < 60) rel = `hace ${Math.max(1, mins)} min`;
+    else if (mins < 1440) rel = `hace ${Math.round(mins / 60)} h`;
+    else rel = `hace ${Math.round(mins / 1440)} d`;
+    return "Actualizado " + rel;
+  }
+  document.getElementById("tag-updated").textContent = freshText();
+
+  document.getElementById("btn-refresh").addEventListener("click", () => {
+    // Recarga saltando el caché (GitHub Pages/CDN/navegador)
+    location.replace(location.pathname + "?t=" + Date.now());
+  });
 
   // ---- Cuenta regresiva en vivo ----
   const RACE = new Date("2026-11-01T00:00:00");

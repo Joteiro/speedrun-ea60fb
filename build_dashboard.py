@@ -14,7 +14,7 @@ Uso:
 import re
 import subprocess
 import sys
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 import oura_client as oc
@@ -98,18 +98,9 @@ def js_array(rows):
     return "\n".join(lines)
 
 
-def build_html(rows):
+def _inject(block: str, dest_desc: str):
+    """Reemplaza el bloque DATA_START/END de la plantilla y escribe docs/index.html."""
     html = TEMPLATE.read_text(encoding="utf-8")
-    today = date.today()
-    data_date = f"{today.day:02d} {MESES[today.month - 1]} {today.year}"
-    block = (
-        "/* DATA_START — generado por build_dashboard.py, no editar a mano */\n"
-        f'  const DATA_DATE = "{data_date}";\n'
-        "  const runs = [\n"
-        f"{js_array(rows)}\n"
-        "  ];\n"
-        "  /* DATA_END */"
-    )
     new_html, n = re.subn(
         r"/\* DATA_START.*?/\* DATA_END \*/",
         lambda _: block, html, count=1, flags=re.DOTALL,
@@ -118,7 +109,38 @@ def build_html(rows):
         raise RuntimeError("No se encontro el bloque DATA_START/DATA_END en dashboard.html")
     DOCS.mkdir(exist_ok=True)
     OUT.write_text(new_html, encoding="utf-8")
-    print(f"Generado: {OUT}  ({len(rows)} runnings)")
+    print(dest_desc)
+
+
+def build_html(rows):
+    today = date.today()
+    data_date = f"{today.day:02d} {MESES[today.month - 1]} {today.year}"
+    built = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    block = (
+        "/* DATA_START — generado por build_dashboard.py, no editar a mano */\n"
+        f'  const DATA_DATE = "{data_date}";\n'
+        f'  const DATA_BUILT = "{built}";\n'
+        "  const runs = [\n"
+        f"{js_array(rows)}\n"
+        "  ];\n"
+        "  /* DATA_END */"
+    )
+    _inject(block, f"Generado: {OUT}  ({len(rows)} runnings)")
+
+
+def rebuild_offline():
+    """Regenera docs/index.html reusando los datos ya publicados (sin tocar Oura).
+
+    Útil para aplicar cambios de la plantilla (estilos, botones) sin gastar/rotar
+    el token de Oura, que en producción es propiedad de la nube.
+    """
+    if not OUT.exists():
+        raise SystemExit("No hay docs/index.html previo para modo offline.")
+    m = re.search(r"/\* DATA_START.*?/\* DATA_END \*/",
+                  OUT.read_text(encoding="utf-8"), re.DOTALL)
+    if not m:
+        raise SystemExit("No se encontro bloque DATA en docs/index.html")
+    _inject(m.group(0), f"Regenerado offline (sin tocar Oura): {OUT}")
 
 
 def git_publish():
@@ -142,8 +164,11 @@ def git_publish():
 
 
 def main():
-    rows = fetch_runs()
-    build_html(rows)
+    if "--offline" in sys.argv:
+        rebuild_offline()
+    else:
+        rows = fetch_runs()
+        build_html(rows)
     if "--no-push" not in sys.argv:
         git_publish()
     else:
