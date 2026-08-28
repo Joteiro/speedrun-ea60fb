@@ -36,10 +36,21 @@ jobs:
         run: python cloud_refresh.py
 
       - name: Re-guardar el nuevo refresh token (Oura rota el token)
+        continue-on-error: true   # un 502 de GitHub NO debe bloquear el dashboard
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
           NEW_RT: ${{ steps.refresh.outputs.refresh_token }}
-        run: gh secret set OURA_REFRESH_TOKEN --body "$NEW_RT"
+        run: |
+          for i in 1 2 3 4 5; do
+            if gh secret set OURA_REFRESH_TOKEN --body "$NEW_RT" --repo "$GITHUB_REPOSITORY"; then
+              echo "Secret actualizado (intento $i)."
+              exit 0
+            fi
+            echo "Intento $i fallo (¿502 transitorio?); reintento en $((i*10))s..."
+            sleep $((i * 10))
+          done
+          echo "::warning::No se pudo actualizar OURA_REFRESH_TOKEN tras 5 intentos. El refresh sigue funcionando con el token actual por el período de gracia de Oura."
+          exit 1
 
       - name: Regenerar dashboard
         env:
