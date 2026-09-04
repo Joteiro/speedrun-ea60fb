@@ -24,7 +24,10 @@ TEMPLATE = BASE / "dashboard.html"
 DOCS = BASE / "docs"
 OUT = DOCS / "index.html"
 
-RUN_ACTIVITIES = {"running", "run", "jogging", "trail_running"}
+# Palabras que identifican un running, buscadas tanto en 'activity' como en
+# 'label'. Incluye el español para captar los workouts importados desde Salud
+# (Adidas Running -> Apple Health/Health Connect -> Oura), p.ej. "Correr al aire libre".
+RUN_KEYWORDS = ("run", "jog", "trail", "correr", "carrera")
 MESES = ["ene", "feb", "mar", "abr", "may", "jun", "jul",
          "ago", "sep", "oct", "nov", "dic"]
 
@@ -54,9 +57,19 @@ def fetch_runs():
     payload = oc.api_get(
         "/usercollection/workout", {"start_date": start, "end_date": end}
     )
-    runs = [w for w in payload["data"]
-            if (w.get("activity") or "").lower() in RUN_ACTIVITIES]
+    def is_run(w):
+        text = (str(w.get("activity") or "") + " " + str(w.get("label") or "")).lower()
+        return any(k in text for k in RUN_KEYWORDS)
+
+    runs = [w for w in payload["data"] if is_run(w)]
     print(f"Runnings encontrados: {len(runs)}")
+    # Debug acotado: workouts omitidos que tienen distancia (posibles runs mal
+    # clasificados), para diagnosticar sin llenar el log.
+    omitidos = [w for w in payload["data"]
+                if not is_run(w) and (w.get("distance") or 0) > 0]
+    for w in omitidos[:20]:
+        print(f"  (omitido c/dist) activity={w.get('activity')!r} "
+              f"label={w.get('label')!r} source={w.get('source')!r} day={w.get('day')}")
 
     rows = []
     for w in sorted(runs, key=lambda x: x["start_datetime"]):
