@@ -102,10 +102,50 @@ def fetch_runs():
             "dist": round(dist_km, 2) if plausible else None,
             "ritmo": fmt_pace(pace_s) if plausible else None,
             "fc": fc,
+            "_sort": w["start_datetime"],
+            "_day": w.get("day"),
         })
         print(f"  {rows[-1]['fecha']}  FC {fc}"
               + (f"  {rows[-1]['dist']}km {rows[-1]['ritmo']}/km" if plausible else ""))
     return rows
+
+
+MANUAL_PATH = BASE / "manual_runs.json"
+
+
+def load_manual():
+    """Carga corridas cargadas a mano (GPS de Adidas) desde manual_runs.json.
+
+    Formato de cada entrada:
+      { "date": "2026-09-03", "dist": 5.0, "ritmo": "6:00", "fc": 158 }
+    'ritmo' y 'fc' son opcionales (si falta fc, la fila no clasifica bien, así
+    que conviene ponerla — la ves en la app de Oura para esa salida).
+    """
+    if not MANUAL_PATH.exists():
+        return []
+    data = json.loads(MANUAL_PATH.read_text(encoding="utf-8"))
+    rows = []
+    for e in data:
+        d = datetime.fromisoformat(e["date"])
+        rows.append({
+            "fecha": f"{d.day:02d} {MESES[d.month - 1]}",
+            "dist": e.get("dist"),
+            "ritmo": e.get("ritmo"),
+            "fc": e.get("fc"),
+            "_sort": e["date"] + "T12:00:00",
+            "_day": e["date"],
+        })
+    print(f"Corridas manuales (Adidas): {len(rows)}")
+    return rows
+
+
+def merge_runs(oura_rows, manual_rows):
+    """Fusiona ambas fuentes. Si una salida manual cae el mismo día que una de
+    Oura, gana la manual (tiene el GPS bueno). Ordena por fecha real."""
+    manual_days = {r["_day"] for r in manual_rows}
+    merged = [r for r in oura_rows if r["_day"] not in manual_days] + manual_rows
+    merged.sort(key=lambda r: r["_sort"])
+    return merged
 
 
 def js_array(rows):
@@ -167,7 +207,7 @@ def git_publish():
 
 
 def main():
-    rows = fetch_runs()
+    rows = merge_runs(fetch_runs(), load_manual())
     build_html(rows)
     if "--no-push" not in sys.argv:
         git_publish()
