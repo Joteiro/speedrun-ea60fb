@@ -11,6 +11,7 @@ Uso:
     python build_dashboard.py            # baja datos, regenera y publica
     python build_dashboard.py --no-push  # regenera pero no hace push (prueba)
 """
+import json
 import re
 import subprocess
 import sys
@@ -70,6 +71,17 @@ def fetch_runs():
     for w in omitidos[:20]:
         print(f"  (omitido c/dist) activity={w.get('activity')!r} "
               f"label={w.get('label')!r} source={w.get('source')!r} day={w.get('day')}")
+
+    # Volcado de diagnóstico: últimos 15 workouts crudos de la API, para inspeccionar
+    # qué llega realmente (activity/label/source) y por qué algo no se capta.
+    recientes = sorted(payload["data"], key=lambda x: x.get("start_datetime") or "")[-15:]
+    dbg = [{"day": w.get("day"), "activity": w.get("activity"),
+            "label": w.get("label"), "source": w.get("source"),
+            "distance": w.get("distance"), "start": w.get("start_datetime")}
+           for w in recientes]
+    DOCS.mkdir(exist_ok=True)
+    (DOCS / "_debug.json").write_text(
+        json.dumps(dbg, indent=2, ensure_ascii=False), encoding="utf-8")
 
     rows = []
     for w in sorted(runs, key=lambda x: x["start_datetime"]):
