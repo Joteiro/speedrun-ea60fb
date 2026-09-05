@@ -1,37 +1,5 @@
 [
   {
-    "day": "2026-08-29",
-    "activity": "running",
-    "label": null,
-    "source": "confirmed",
-    "distance": 84.1073265074946,
-    "start": "2026-08-29T19:31:00.000+02:00"
-  },
-  {
-    "day": "2026-08-29",
-    "activity": "walking",
-    "label": null,
-    "source": "confirmed",
-    "distance": 1165.7726768287118,
-    "start": "2026-08-29T19:40:00.000+02:00"
-  },
-  {
-    "day": "2026-08-30",
-    "activity": "cycling",
-    "label": null,
-    "source": "confirmed",
-    "distance": 3233.618875504874,
-    "start": "2026-08-30T16:29:00.000+02:00"
-  },
-  {
-    "day": "2026-08-30",
-    "activity": "tennis",
-    "label": null,
-    "source": "confirmed",
-    "distance": 1015.4619278444932,
-    "start": "2026-08-30T17:01:00.000+02:00"
-  },
-  {
     "day": "2026-08-30",
     "activity": "walking",
     "label": null,
@@ -118,5 +86,37 @@
     "source": "confirmed",
     "distance": 1163.9527212694416,
     "start": "2026-09-03T21:00:00.000+02:00"
+  },
+  {
+    "day": "2026-09-04",
+    "activity": "walking",
+    "label": null,
+    "source": "confirmed",
+    "distance": 141.88584701779703,
+    "start": "2026-09-04T10:12:00.000+02:00"
+  },
+  {
+    "day": "2026-09-04",
+    "activity": "walking",
+    "label": null,
+    "source": "confirmed",
+    "distance": 1044.625973725162,
+    "start": "2026-09-04T10:34:00.000+02:00"
+  },
+  {
+    "day": "2026-09-04",
+    "activity": "walking",
+    "label": null,
+    "source": "confirmed",
+    "distance": 771.6488775058103,
+    "start": "2026-09-04T20:27:00.000+02:00"
+  },
+  {
+    "day": "2026-09-04",
+    "activity": "walking",
+    "label": null,
+    "source": "confirmed",
+    "distance": 798.1376069783353,
+    "start": "2026-09-05T00:49:00.000+02:00"
   }
 ]
