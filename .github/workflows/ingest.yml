@@ -1,0 +1,43 @@
+name: Ingestar corrida de Adidas (Hooksy)
+
+# Lo dispara Pipedream cuando Hooksy manda una corrida nueva, via:
+#   POST /repos/OWNER/REPO/dispatches
+#   { "event_type": "nueva_corrida", "client_payload": { date, dist, fc, start, end } }
+on:
+  repository_dispatch:
+    types: [nueva_corrida]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ingest-dashboard
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Agregar corrida a imported_runs.json
+        env:
+          RUN_DATE:  ${{ github.event.client_payload.date }}
+          RUN_DIST:  ${{ github.event.client_payload.dist }}
+          RUN_RITMO: ${{ github.event.client_payload.ritmo }}
+          RUN_FC:    ${{ github.event.client_payload.fc }}
+          RUN_START: ${{ github.event.client_payload.start }}
+          RUN_END:   ${{ github.event.client_payload.end }}
+        run: python ingest_run.py
+
+      - name: Commit si hay cambios
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add imported_runs.json
+          if git diff --cached --quiet; then
+            echo "Sin corridas nuevas para ingestar."
+          else
+            git commit -m "Ingestar corrida de Adidas ($(date -u +%Y-%m-%dT%H:%M))"
+            git push
+          fi

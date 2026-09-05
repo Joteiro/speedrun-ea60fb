@@ -117,39 +117,63 @@ def fetch_runs():
 
 
 MANUAL_PATH = BASE / "manual_runs.json"
+IMPORTED_PATH = BASE / "imported_runs.json"
 
 
-def load_manual():
-    """Carga corridas cargadas a mano (GPS de Adidas) desde manual_runs.json.
+def _pace_from(dist_km, start, end):
+    """Calcula ritmo (m:ss/km) a partir de distancia y ventana temporal."""
+    if not (dist_km and start and end):
+        return None
+    try:
+        dur = (datetime.fromisoformat(end) - datetime.fromisoformat(start)).total_seconds()
+    except ValueError:
+        return None
+    return fmt_pace(dur / dist_km) if dist_km > 0 and dur > 0 else None
 
-    Formato de cada entrada:
-      { "date": "2026-09-03", "dist": 5.0, "ritmo": "6:00", "fc": 158 }
-    'ritmo' y 'fc' son opcionales (si falta fc, la fila no clasifica bien, así
-    que conviene ponerla — la ves en la app de Oura para esa salida).
+
+def load_extra(path, etiqueta):
+    """Carga corridas extra (manual o importadas de Adidas vía Hooksy).
+
+    Entrada: { "date": "2026-09-03", "dist": 5.0, "ritmo": "6:00", "fc": 158,
+               "start": "...", "end": "..." }  (ritmo/fc/start/end opcionales)
+    - Si falta 'fc' pero hay start/end, se rellena desde la API de Oura.
+    - Si falta 'ritmo' pero hay dist+start+end, se calcula.
     """
-    if not MANUAL_PATH.exists():
+    if not path.exists():
         return []
-    data = json.loads(MANUAL_PATH.read_text(encoding="utf-8"))
     rows = []
-    for e in data:
+    for e in json.loads(path.read_text(encoding="utf-8")):
         d = datetime.fromisoformat(e["date"])
+        fc = e.get("fc")
+        if fc is None and e.get("start") and e.get("end"):
+            fc = hr_mean(e["start"], e["end"])
+        ritmo = e.get("ritmo") or _pace_from(e.get("dist"), e.get("start"), e.get("end"))
         rows.append({
             "fecha": f"{d.day:02d} {MESES[d.month - 1]}",
             "dist": e.get("dist"),
-            "ritmo": e.get("ritmo"),
-            "fc": e.get("fc"),
-            "_sort": e["date"] + "T12:00:00",
+            "ritmo": ritmo,
+            "fc": fc,
+            "_sort": e.get("start") or (e["date"] + "T12:00:00"),
             "_day": e["date"],
         })
-    print(f"Corridas manuales (Adidas): {len(rows)}")
+    print(f"Corridas {etiqueta}: {len(rows)}")
     return rows
 
 
-def merge_runs(oura_rows, manual_rows):
-    """Fusiona ambas fuentes. Si una salida manual cae el mismo día que una de
-    Oura, gana la manual (tiene el GPS bueno). Ordena por fecha real."""
-    manual_days = {r["_day"] for r in manual_rows}
-    merged = [r for r in oura_rows if r["_day"] not in manual_days] + manual_rows
+def load_all_extra():
+    """Manual + importadas, deduplicadas por día (gana la manual si coinciden)."""
+    manual = load_extra(MANUAL_PATH, "manuales")
+    imported = load_extra(IMPORTED_PATH, "importadas (Adidas)")
+    manual_days = {r["_day"] for r in manual}
+    imported = [r for r in imported if r["_day"] not in manual_days]
+    return manual + imported
+
+
+def merge_runs(oura_rows, extra_rows):
+    """Fusiona Oura + extra. Si una salida extra cae el mismo día que una de
+    Oura, gana la extra (tiene el GPS bueno). Ordena por fecha real."""
+    extra_days = {r["_day"] for r in extra_rows}
+    merged = [r for r in oura_rows if r["_day"] not in extra_days] + extra_rows
     merged.sort(key=lambda r: r["_sort"])
     return merged
 
@@ -213,7 +237,7 @@ def git_publish():
 
 
 def main():
-    rows = merge_runs(fetch_runs(), load_manual())
+    rows = merge_runs(fetch_runs(), load_all_extra())
     build_html(rows)
     if "--no-push" not in sys.argv:
         git_publish()
