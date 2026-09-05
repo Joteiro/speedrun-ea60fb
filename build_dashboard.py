@@ -72,13 +72,19 @@ def fetch_runs():
         print(f"  (omitido c/dist) activity={w.get('activity')!r} "
               f"label={w.get('label')!r} source={w.get('source')!r} day={w.get('day')}")
 
-    # Volcado de diagnóstico: últimos 15 workouts crudos de la API, para inspeccionar
-    # qué llega realmente (activity/label/source) y por qué algo no se capta.
-    recientes = sorted(payload["data"], key=lambda x: x.get("start_datetime") or "")[-15:]
-    dbg = [{"day": w.get("day"), "activity": w.get("activity"),
-            "label": w.get("label"), "source": w.get("source"),
-            "distance": w.get("distance"), "start": w.get("start_datetime")}
-           for w in recientes]
+    # Volcado de diagnóstico COMPLETO: todos los workouts crudos (todos sus campos)
+    # de los últimos 12 días, más el endpoint y el total, para inspeccionar sin dudas.
+    cutoff = (date.today() - timedelta(days=12)).isoformat()
+    recientes = sorted(
+        (w for w in payload["data"] if (w.get("day") or "") >= cutoff),
+        key=lambda x: x.get("start_datetime") or "",
+    )
+    dbg = {
+        "endpoint": f"{oc.API_BASE}/usercollection/workout",
+        "rango_consultado": {"start_date": start, "end_date": end},
+        "total_workouts_en_rango": len(payload["data"]),
+        "workouts_ultimos_12_dias_crudos": recientes,
+    }
     DOCS.mkdir(exist_ok=True)
     (DOCS / "_debug.json").write_text(
         json.dumps(dbg, indent=2, ensure_ascii=False), encoding="utf-8")
