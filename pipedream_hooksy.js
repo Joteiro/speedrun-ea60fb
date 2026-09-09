@@ -28,6 +28,7 @@ export default defineComponent({
     );
 
     const enviadas = [];
+    const revisadas = []; // diagnóstico por cada corrida de Adidas hallada
     for (const s of runs) {
       const a = ms(s.start_time);
       const b = ms(s.end_time);
@@ -38,8 +39,6 @@ export default defineComponent({
                        ms(x.start_time) >= a && ms(x.start_time) <= b)
         .reduce((acc, x) => acc + (x.value || 0), 0);
 
-      if (distKm < 1) continue; // ignora tests/tramos muy cortos
-
       // FC media (de Oura) dentro de la ventana; si no hay, la rellena el repo
       const hrs = hrSamples
         .filter((x) => ms(x.start_time) >= a && ms(x.start_time) <= b)
@@ -47,6 +46,10 @@ export default defineComponent({
       const fc = hrs.length
         ? Math.round(hrs.reduce((p, c) => p + c, 0) / hrs.length)
         : null;
+
+      revisadas.push({ start: s.start_time, distKm: +distKm.toFixed(3), fc });
+
+      if (distKm < 1) continue; // ignora tests/tramos muy cortos
 
       const payload = {
         date: s.start_time.slice(0, 10),
@@ -78,6 +81,21 @@ export default defineComponent({
       enviadas.push(payload);
     }
 
-    return { corridas_enviadas: enviadas.length, enviadas };
+    // Diagnóstico: siempre devuelve qué llegó y qué se encontró, aunque no envíe nada.
+    return {
+      corridas_enviadas: enviadas.length,
+      enviadas,
+      debug: {
+        tiene_token: Boolean(process.env.GH_DISPATCH_PAT),
+        total_sessions: sessions.length,
+        running_sessions: sessions.filter((s) => s.label === "running").length,
+        running_adidas: runs.length,
+        distance_samples: distSamples.length,
+        hr_samples: hrSamples.length,
+        tipos_de_sesion: [...new Set(sessions.map(
+          (s) => `${s.label}:${(s.source || "").split(".").pop()}`))],
+        revisadas,
+      },
+    };
   },
 });
