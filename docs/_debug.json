@@ -1,71 +1,11 @@
 {
   "endpoint": "https://api.ouraring.com/v2/usercollection/workout",
   "rango_consultado": {
-    "start_date": "2025-08-04",
-    "end_date": "2026-09-08"
+    "start_date": "2025-08-05",
+    "end_date": "2026-09-09"
   },
-  "total_workouts_en_rango": 1206,
+  "total_workouts_en_rango": 1209,
   "workouts_ultimos_12_dias_crudos": [
-    {
-      "id": "2a5b72f6-364b-4c7d-8d32-db2721e63953",
-      "activity": "walking",
-      "calories": 30.049182891845703,
-      "day": "2026-08-27",
-      "distance": null,
-      "end_datetime": "2026-08-27T10:47:00.000+02:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-08-27T10:35:00.000+02:00"
-    },
-    {
-      "id": "df24817e-bac5-4769-890e-147dc99ce010",
-      "activity": "walking",
-      "calories": 150.9601593017578,
-      "day": "2026-08-27",
-      "distance": 1390.132834222374,
-      "end_datetime": "2026-08-27T14:29:00.000+02:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-08-27T13:54:00.000+02:00"
-    },
-    {
-      "id": "5bdd00b2-a2ab-4690-8567-0ba19f728a36",
-      "activity": "walking",
-      "calories": 97.21675109863281,
-      "day": "2026-08-27",
-      "distance": 764.1699857714187,
-      "end_datetime": "2026-08-27T15:24:00.000+02:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-08-27T15:03:00.000+02:00"
-    },
-    {
-      "id": "abb27af5-ac3e-4ae3-acf3-124ce533669d",
-      "activity": "walking",
-      "calories": 23.521747589111328,
-      "day": "2026-08-27",
-      "distance": null,
-      "end_datetime": "2026-08-27T17:30:00.000+02:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-08-27T17:20:00.000+02:00"
-    },
-    {
-      "id": "d734c2db-f4e7-42e3-8ba4-3276097280f6",
-      "activity": "walking",
-      "calories": 87.56913757324219,
-      "day": "2026-08-27",
-      "distance": 1239.0843829015246,
-      "end_datetime": "2026-08-27T20:39:00.000+02:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-08-27T20:21:00.000+02:00"
-    },
     {
       "id": "220e831d-e62c-4707-a656-b4d501c3c683",
       "activity": "tennis",
@@ -545,6 +485,42 @@
       "label": null,
       "source": "confirmed",
       "start_datetime": "2026-09-07T20:08:00.000+02:00"
+    },
+    {
+      "id": "4376f421-92a0-45df-9f3c-80f71bc14c0a",
+      "activity": "walking",
+      "calories": 43.1450080871582,
+      "day": "2026-09-08",
+      "distance": 250.73603836613324,
+      "end_datetime": "2026-09-08T15:03:00.000+02:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "confirmed",
+      "start_datetime": "2026-09-08T14:50:00.000+02:00"
+    },
+    {
+      "id": "8d0fdda1-c326-4146-aa9b-68e92ec22ff1",
+      "activity": "walking",
+      "calories": 59.18867492675781,
+      "day": "2026-09-08",
+      "distance": 56.21007024246155,
+      "end_datetime": "2026-09-08T20:18:00.000+02:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "confirmed",
+      "start_datetime": "2026-09-08T20:06:00.000+02:00"
+    },
+    {
+      "id": "4dc3b590-60bd-4c94-8c09-b8524523efbe",
+      "activity": "walking",
+      "calories": 62.383460998535156,
+      "day": "2026-09-08",
+      "distance": 688.1545502567209,
+      "end_datetime": "2026-09-08T21:26:00.000+02:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "confirmed",
+      "start_datetime": "2026-09-08T21:11:00.000+02:00"
     }
   ]
 }
