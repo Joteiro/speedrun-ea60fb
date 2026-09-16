@@ -1,59 +1,11 @@
 {
   "endpoint": "https://api.ouraring.com/v2/usercollection/workout",
   "rango_consultado": {
-    "start_date": "2025-08-11",
-    "end_date": "2026-09-15"
+    "start_date": "2025-08-12",
+    "end_date": "2026-09-16"
   },
-  "total_workouts_en_rango": 1239,
+  "total_workouts_en_rango": 1244,
   "workouts_ultimos_12_dias_crudos": [
-    {
-      "id": "a91113ad-e6aa-4a68-ab2e-392974209872",
-      "activity": "walking",
-      "calories": 33.60635757446289,
-      "day": "2026-09-03",
-      "distance": null,
-      "end_datetime": "2026-09-03T10:08:00.000+02:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-09-03T09:57:00.000+02:00"
-    },
-    {
-      "id": "a89b98fd-9e62-4236-9c53-52469c87a192",
-      "activity": "walking",
-      "calories": 78.21202850341797,
-      "day": "2026-09-03",
-      "distance": 140.80795074973304,
-      "end_datetime": "2026-09-03T19:32:00.000+02:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-09-03T19:04:00.000+02:00"
-    },
-    {
-      "id": "636c5406-3d6c-4b3d-8369-37c59c185c1f",
-      "activity": "walking",
-      "calories": 51.04693603515625,
-      "day": "2026-09-03",
-      "distance": 603.1694958781932,
-      "end_datetime": "2026-09-03T20:10:00.000+02:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-09-03T19:58:00.000+02:00"
-    },
-    {
-      "id": "3755c6b4-0bff-4cf1-95e2-537c930c189f",
-      "activity": "walking",
-      "calories": 110.54100036621094,
-      "day": "2026-09-03",
-      "distance": 1163.9527212694416,
-      "end_datetime": "2026-09-03T21:28:00.000+02:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-09-03T21:00:00.000+02:00"
-    },
     {
       "id": "7489e0d3-9c30-41a5-9aed-43fe6611aa4e",
       "activity": "walking",
@@ -641,6 +593,66 @@
       "label": null,
       "source": "confirmed",
       "start_datetime": "2026-09-14T22:40:00.000+02:00"
+    },
+    {
+      "id": "bef0462f-b7f8-4e23-b754-c7e4a5ceb7e9",
+      "activity": "walking",
+      "calories": 39.52075958251953,
+      "day": "2026-09-15",
+      "distance": 40.30938508056492,
+      "end_datetime": "2026-09-15T11:04:00.000+02:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "confirmed",
+      "start_datetime": "2026-09-15T10:48:00.000+02:00"
+    },
+    {
+      "id": "f23b3f71-c66b-47f5-854e-248c9ed6891e",
+      "activity": "swimming",
+      "calories": 47.25783157348633,
+      "day": "2026-09-15",
+      "distance": null,
+      "end_datetime": "2026-09-15T12:44:00.000+02:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "confirmed",
+      "start_datetime": "2026-09-15T12:29:00.000+02:00"
+    },
+    {
+      "id": "f9dc945c-9368-48c3-a7d7-1bef553584b8",
+      "activity": "walking",
+      "calories": 187.82119750976562,
+      "day": "2026-09-15",
+      "distance": 18.201407047128818,
+      "end_datetime": "2026-09-15T14:37:00.000+02:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "confirmed",
+      "start_datetime": "2026-09-15T13:53:00.000+02:00"
+    },
+    {
+      "id": "9b33414c-abe4-4247-83bd-ea67b5a342f3",
+      "activity": "walking",
+      "calories": 121.47119140625,
+      "day": "2026-09-15",
+      "distance": 1092.317995437544,
+      "end_datetime": "2026-09-15T20:59:00.000+02:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "confirmed",
+      "start_datetime": "2026-09-15T20:24:00.000+02:00"
+    },
+    {
+      "id": "6079c9f1-07f8-4a6a-97ed-9b659a7cd7b4",
+      "activity": "walking",
+      "calories": 76.86672973632812,
+      "day": "2026-09-15",
+      "distance": 819.5230073313904,
+      "end_datetime": "2026-09-15T22:35:00.000+02:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "confirmed",
+      "start_datetime": "2026-09-15T22:11:00.000+02:00"
     }
   ]
 }
