@@ -1,71 +1,11 @@
 {
   "endpoint": "https://api.ouraring.com/v2/usercollection/workout",
   "rango_consultado": {
-    "start_date": "2025-08-15",
-    "end_date": "2026-09-19"
+    "start_date": "2025-08-16",
+    "end_date": "2026-09-20"
   },
-  "total_workouts_en_rango": 1265,
+  "total_workouts_en_rango": 1272,
   "workouts_ultimos_12_dias_crudos": [
-    {
-      "id": "7f3a4464-a587-41b1-99dd-ee46f7993457",
-      "activity": "walking",
-      "calories": 35.711238861083984,
-      "day": "2026-09-07",
-      "distance": 148.137287410011,
-      "end_datetime": "2026-09-07T12:50:00.000+02:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-09-07T12:39:00.000+02:00"
-    },
-    {
-      "id": "cc8429f6-adb7-491d-b150-3cffc7e12073",
-      "activity": "walking",
-      "calories": 61.429561614990234,
-      "day": "2026-09-07",
-      "distance": 416.28279595223614,
-      "end_datetime": "2026-09-07T14:16:00.000+02:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-09-07T13:59:00.000+02:00"
-    },
-    {
-      "id": "5f113afc-16c4-4a6f-875c-f9ec831d2b3c",
-      "activity": "walking",
-      "calories": 83.19660949707031,
-      "day": "2026-09-07",
-      "distance": 1042.7355558319978,
-      "end_datetime": "2026-09-07T15:17:00.000+02:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-09-07T14:58:00.000+02:00"
-    },
-    {
-      "id": "439dcadc-a2a1-47d1-a39c-4ad27d13a140",
-      "activity": "walking",
-      "calories": 84.02890014648438,
-      "day": "2026-09-07",
-      "distance": 1200.89551626102,
-      "end_datetime": "2026-09-07T16:26:00.000+02:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-09-07T16:05:00.000+02:00"
-    },
-    {
-      "id": "f7c60ea0-ef03-4f86-9c36-cf4588e93837",
-      "activity": "walking",
-      "calories": 150.8424530029297,
-      "day": "2026-09-07",
-      "distance": 1799.2681827189253,
-      "end_datetime": "2026-09-07T20:48:00.000+02:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-09-07T20:08:00.000+02:00"
-    },
     {
       "id": "4376f421-92a0-45df-9f3c-80f71bc14c0a",
       "activity": "walking",
@@ -773,6 +713,90 @@
       "label": null,
       "source": "confirmed",
       "start_datetime": "2026-09-18T22:59:00.000+02:00"
+    },
+    {
+      "id": "36fe9f1c-15cc-4fc7-8f03-ea996bf262bb",
+      "activity": "walking",
+      "calories": 55.839454650878906,
+      "day": "2026-09-19",
+      "distance": 222.33749808631916,
+      "end_datetime": "2026-09-19T11:09:00.000+02:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "confirmed",
+      "start_datetime": "2026-09-19T10:50:00.000+02:00"
+    },
+    {
+      "id": "600d3596-ed19-4c53-9d4a-030142538d23",
+      "activity": "walking",
+      "calories": 108.74485778808594,
+      "day": "2026-09-19",
+      "distance": 1216.8595711077355,
+      "end_datetime": "2026-09-19T15:42:00.000+02:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "confirmed",
+      "start_datetime": "2026-09-19T15:21:00.000+02:00"
+    },
+    {
+      "id": "dda709f1-c55e-46bd-aadb-930823030425",
+      "activity": "walking",
+      "calories": 41.602325439453125,
+      "day": "2026-09-19",
+      "distance": 465.89332270571737,
+      "end_datetime": "2026-09-19T16:24:00.000+02:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "confirmed",
+      "start_datetime": "2026-09-19T16:10:00.000+02:00"
+    },
+    {
+      "id": "010589fa-e3e2-4ad3-97c6-c26962c75ca7",
+      "activity": "hiking",
+      "calories": 307.4730224609375,
+      "day": "2026-09-19",
+      "distance": 2743.4944995512196,
+      "end_datetime": "2026-09-19T17:57:00.000+02:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "confirmed",
+      "start_datetime": "2026-09-19T16:25:00.000+02:00"
+    },
+    {
+      "id": "65edf592-b023-44dd-8605-24280c85e193",
+      "activity": "hiking",
+      "calories": 90.56486511230469,
+      "day": "2026-09-19",
+      "distance": 690.3483026646713,
+      "end_datetime": "2026-09-19T18:17:00.000+02:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "confirmed",
+      "start_datetime": "2026-09-19T17:58:00.000+02:00"
+    },
+    {
+      "id": "05925dd7-538d-4481-a2f8-39b840533ae2",
+      "activity": "walking",
+      "calories": 103.92304992675781,
+      "day": "2026-09-19",
+      "distance": 1218.830646461976,
+      "end_datetime": "2026-09-19T21:28:00.000+02:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "confirmed",
+      "start_datetime": "2026-09-19T21:05:00.000+02:00"
+    },
+    {
+      "id": "93206b00-6445-428b-b85f-ca4677b2d8da",
+      "activity": "walking",
+      "calories": 178.03956604003906,
+      "day": "2026-09-19",
+      "distance": 1730.491230762781,
+      "end_datetime": "2026-09-20T00:13:00.000+02:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "confirmed",
+      "start_datetime": "2026-09-19T23:16:00.000+02:00"
     }
   ]
 }
