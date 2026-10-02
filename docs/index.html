@@ -150,6 +150,22 @@
     font-size: .9rem;
   }
   .run-date span { color: var(--ink-faint); font-weight: 500; margin-left: 6px; }
+  .run-date .run-nota {
+    display: inline-block; margin-left: 8px; color: var(--accent);
+    background: var(--accent-dim); font-weight: 600; font-size: .72rem;
+    padding: 1px 8px; border-radius: 999px; vertical-align: middle;
+  }
+  .run-date .run-tipo {
+    margin-left: 8px; vertical-align: middle; cursor: pointer;
+    font-family: "Barlow Semi Condensed", sans-serif; font-weight: 600;
+    font-size: .72rem; color: var(--ink-soft); background: var(--surface-2);
+    border: 1px solid var(--border); border-radius: 999px; padding: 2px 8px;
+    -webkit-appearance: none; appearance: none;
+  }
+  .run-date .run-tipo.set {
+    color: var(--accent); background: var(--accent-dim); border-color: transparent;
+  }
+  .run-date .run-tipo:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
   .run-hr {
     font-family: "Barlow Semi Condensed", sans-serif;
     font-variant-numeric: tabular-nums; font-weight: 700; font-size: .95rem;
@@ -309,32 +325,12 @@
   /* DATA_START — generado por build_dashboard.py, no editar a mano */
   const DATA_DATE = "02 oct 2026";
   const runs = [
-    { fecha:"03 ene", dist:4.9, ritmo:"6:32", fc:141 },
-    { fecha:"10 ene", dist:null, ritmo:null, fc:110 },
-    { fecha:"10 ene", dist:null, ritmo:null, fc:140 },
-    { fecha:"04 feb", dist:null, ritmo:null, fc:151 },
-    { fecha:"10 feb", dist:null, ritmo:null, fc:153 },
-    { fecha:"24 feb", dist:null, ritmo:null, fc:137 },
-    { fecha:"26 feb", dist:null, ritmo:null, fc:153 },
-    { fecha:"11 mar", dist:null, ritmo:null, fc:142 },
-    { fecha:"29 mar", dist:null, ritmo:null, fc:155 },
-    { fecha:"06 abr", dist:4.72, ritmo:"7:00", fc:144 },
-    { fecha:"09 abr", dist:null, ritmo:null, fc:125 },
-    { fecha:"21 abr", dist:null, ritmo:null, fc:172 },
-    { fecha:"28 abr", dist:null, ritmo:null, fc:139 },
-    { fecha:"06 may", dist:null, ritmo:null, fc:133 },
-    { fecha:"16 jun", dist:5.77, ritmo:"7:27", fc:146 },
-    { fecha:"04 ago", dist:3.63, ritmo:"6:53", fc:168 },
-    { fecha:"17 ago", dist:null, ritmo:null, fc:145 },
-    { fecha:"21 ago", dist:4.94, ritmo:"6:17", fc:152 },
-    { fecha:"25 ago", dist:3.99, ritmo:"6:46", fc:155 },
-    { fecha:"29 ago", dist:null, ritmo:null, fc:105 },
-    { fecha:"29 ago", dist:3.9, ritmo:"8:43", fc:154 },
-    { fecha:"29 ago", dist:null, ritmo:null, fc:130 },
-    { fecha:"03 sep", dist:5.02, ritmo:"6:06", fc:166 },
-    { fecha:"08 sep", dist:5.1, ritmo:"6:53", fc:144 },
-    { fecha:"13 sep", dist:5.8, ritmo:"8:46", fc:143 },
-    { fecha:"25 sep", dist:null, ritmo:null, fc:117 },
+    { fecha:"03 sep", dist:5.02, ritmo:"6:06", fc:166, nota:null, dia:"2026-09-03" },
+    { fecha:"08 sep", dist:5.1, ritmo:"6:53", fc:144, nota:"Rodaje", dia:"2026-09-08" },
+    { fecha:"13 sep", dist:5.8, ritmo:"8:46", fc:143, nota:"Rodaje", dia:"2026-09-13" },
+    { fecha:"16 sep", dist:7.34, ritmo:"6:47", fc:146, nota:"Rodaje", dia:"2026-09-16" },
+    { fecha:"25 sep", dist:7.31, ritmo:"6:22", fc:155, nota:"Pasadas", dia:"2026-09-25" },
+    { fecha:"29 sep", dist:7.01, ritmo:"6:19", fc:157, nota:"Rodaje", dia:"2026-09-29" },
   ];
   /* DATA_END */
 
@@ -364,24 +360,48 @@
 
   // ---- Runs chart ----
   const easyPct = pct(145);
+  const TIPOS = ["Rodaje", "Fartlek", "Tempo", "Pasadas", "Largo", "Test"];
+  function getTipo(dia, fallback) {
+    try {
+      const v = localStorage.getItem("tipo:" + dia);
+      if (v !== null) return v;  // "" = borrado deliberadamente
+    } catch (e) {}
+    return fallback || "";
+  }
   document.getElementById("runs").innerHTML = runs.map(r => {
-    const c = cls(r.fc);
+    const hasFc = r.fc != null;
+    const c = hasFc ? cls(r.fc) : null;
     const dist = r.dist ? `<span>${r.dist} km${r.ritmo?` · ${r.ritmo}/km`:''}</span>` : `<span>sin GPS fiable</span>`;
+    const tipo = getTipo(r.dia, r.nota);
+    const opts = ['<option value="">+ tipo</option>']
+      .concat(TIPOS.map(t => `<option value="${t}"${t === tipo ? " selected" : ""}>${t}</option>`))
+      .join("");
+    const sel = `<select class="run-tipo${tipo ? " set" : ""}" data-dia="${r.dia}" aria-label="Tipo de sesión">${opts}</select>`;
+    const hr = hasFc
+      ? `<span class="run-hr"><b>${r.fc}</b> <small>ppm · ${Math.round(r.fc/MAXHR*100)}%</small></span>
+         <span class="run-tag t-${c}">${label(c)}</span>`
+      : `<span class="run-hr"><small>FC s/d</small></span>`;
+    const fill = hasFc
+      ? `<div class="fill" style="width:${pct(r.fc)}%;background:${clr(c)}"></div>
+         <div class="easy-line" style="left:${easyPct}%"></div>`
+      : "";
     return `
     <div class="run">
       <div class="run-top">
-        <div class="run-date">${r.fecha}${dist}</div>
-        <div style="display:flex;align-items:center;gap:8px">
-          <span class="run-hr"><b>${r.fc}</b> <small>ppm · ${Math.round(r.fc/MAXHR*100)}%</small></span>
-          <span class="run-tag t-${c}">${label(c)}</span>
-        </div>
+        <div class="run-date">${r.fecha}${dist}${sel}</div>
+        <div style="display:flex;align-items:center;gap:8px">${hr}</div>
       </div>
-      <div class="track">
-        <div class="fill" style="width:${pct(r.fc)}%;background:${clr(c)}"></div>
-        <div class="easy-line" style="left:${easyPct}%"></div>
-      </div>
+      <div class="track">${fill}</div>
     </div>`;
   }).join("");
+
+  // Guardar la elección de tipo (por dispositivo) y reflejarla al instante
+  document.querySelectorAll(".run-tipo").forEach(s => {
+    s.addEventListener("change", () => {
+      try { localStorage.setItem("tipo:" + s.dataset.dia, s.value); } catch (e) {}
+      s.classList.toggle("set", !!s.value);
+    });
+  });
 
   // ---- Callout ----
   const tooHard = withFc.length - easyCount;
