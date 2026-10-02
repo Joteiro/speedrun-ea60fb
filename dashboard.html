@@ -155,6 +155,17 @@
     background: var(--accent-dim); font-weight: 600; font-size: .72rem;
     padding: 1px 8px; border-radius: 999px; vertical-align: middle;
   }
+  .run-date .run-tipo {
+    margin-left: 8px; vertical-align: middle; cursor: pointer;
+    font-family: "Barlow Semi Condensed", sans-serif; font-weight: 600;
+    font-size: .72rem; color: var(--ink-soft); background: var(--surface-2);
+    border: 1px solid var(--border); border-radius: 999px; padding: 2px 8px;
+    -webkit-appearance: none; appearance: none;
+  }
+  .run-date .run-tipo.set {
+    color: var(--accent); background: var(--accent-dim); border-color: transparent;
+  }
+  .run-date .run-tipo:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
   .run-hr {
     font-family: "Barlow Semi Condensed", sans-serif;
     font-variant-numeric: tabular-nums; font-weight: 700; font-size: .95rem;
@@ -360,11 +371,23 @@
 
   // ---- Runs chart ----
   const easyPct = pct(145);
+  const TIPOS = ["Rodaje", "Fartlek", "Tempo", "Pasadas", "Largo", "Test"];
+  function getTipo(dia, fallback) {
+    try {
+      const v = localStorage.getItem("tipo:" + dia);
+      if (v !== null) return v;  // "" = borrado deliberadamente
+    } catch (e) {}
+    return fallback || "";
+  }
   document.getElementById("runs").innerHTML = runs.map(r => {
     const hasFc = r.fc != null;
     const c = hasFc ? cls(r.fc) : null;
     const dist = r.dist ? `<span>${r.dist} km${r.ritmo?` · ${r.ritmo}/km`:''}</span>` : `<span>sin GPS fiable</span>`;
-    const nota = r.nota ? `<span class="run-nota">${r.nota}</span>` : "";
+    const tipo = getTipo(r.dia, r.nota);
+    const opts = ['<option value="">+ tipo</option>']
+      .concat(TIPOS.map(t => `<option value="${t}"${t === tipo ? " selected" : ""}>${t}</option>`))
+      .join("");
+    const sel = `<select class="run-tipo${tipo ? " set" : ""}" data-dia="${r.dia}" aria-label="Tipo de sesión">${opts}</select>`;
     const hr = hasFc
       ? `<span class="run-hr"><b>${r.fc}</b> <small>ppm · ${Math.round(r.fc/MAXHR*100)}%</small></span>
          <span class="run-tag t-${c}">${label(c)}</span>`
@@ -376,12 +399,20 @@
     return `
     <div class="run">
       <div class="run-top">
-        <div class="run-date">${r.fecha}${dist}${nota}</div>
+        <div class="run-date">${r.fecha}${dist}${sel}</div>
         <div style="display:flex;align-items:center;gap:8px">${hr}</div>
       </div>
       <div class="track">${fill}</div>
     </div>`;
   }).join("");
+
+  // Guardar la elección de tipo (por dispositivo) y reflejarla al instante
+  document.querySelectorAll(".run-tipo").forEach(s => {
+    s.addEventListener("change", () => {
+      try { localStorage.setItem("tipo:" + s.dataset.dia, s.value); } catch (e) {}
+      s.classList.toggle("set", !!s.value);
+    });
+  });
 
   // ---- Callout ----
   const tooHard = withFc.length - easyCount;

@@ -201,7 +201,8 @@ def js_array(rows):
         return str(x)
     lines = [
         f'    {{ fecha:{val(r["fecha"])}, dist:{val(r["dist"])}, '
-        f'ritmo:{val(r["ritmo"])}, fc:{val(r["fc"])}, nota:{val(r.get("nota"))} }},'
+        f'ritmo:{val(r["ritmo"])}, fc:{val(r["fc"])}, nota:{val(r.get("nota"))}, '
+        f'dia:{val(r["_day"])} }},'
         for r in rows
     ]
     return "\n".join(lines)
