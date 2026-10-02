@@ -34,15 +34,17 @@ def main():
 
     data = json.loads(IMPORTED_PATH.read_text(encoding="utf-8")) if IMPORTED_PATH.exists() else []
     key = start or f"{date}|{dist}"
-    for e in data:
+    for i, e in enumerate(data):
         if (e.get("start") or f"{e.get('date')}|{e.get('dist')}") == key:
-            print(f"Ya existe, no se agrega: {key}")
-            return
+            data[i] = entry  # refrescar con los datos nuevos (ritmo/fc/dist)
+            print(f"Corrida existente actualizada: {key}")
+            break
+    else:
+        data.append(entry)
+        print(f"Corrida importada agregada: {entry}")
 
-    data.append(entry)
     data.sort(key=lambda e: e.get("start") or e.get("date"))
     IMPORTED_PATH.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
-    print(f"Corrida importada agregada: {entry}")
 
 
 if __name__ == "__main__":

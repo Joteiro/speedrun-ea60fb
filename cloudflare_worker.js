@@ -13,6 +13,13 @@
 const OWNER = "Joteiro";
 const REPO = "speedrun-ea60fb";
 
+// segundos/km -> "m:ss"
+function fmtPace(sec) {
+  const m = Math.floor(sec / 60);
+  const s = Math.round(sec - m * 60);
+  return `${m}:${String(s).padStart(2, "0")}`;
+}
+
 export default {
   async fetch(request, env) {
     if (request.method !== "POST") {
@@ -50,21 +57,32 @@ export default {
 
     for (const s of runs) {
       const a = ms(s.start_time), b = ms(s.end_time);
-      const distKm = distSamples
-        .filter((x) => (x.source || "").includes("runtastic") &&
-                       ms(x.start_time) >= a && ms(x.start_time) <= b)
-        .reduce((acc, x) => acc + (x.value || 0), 0);
+      const dseg = distSamples.filter(
+        (x) => (x.source || "").includes("runtastic") &&
+               ms(x.start_time) >= a && ms(x.start_time) <= b
+      );
+      const distKm = dseg.reduce((acc, x) => acc + (x.value || 0), 0);
+      // Tiempo EN MOVIMIENTO: suma de los lapsos de las muestras de distancia
+      // (excluye pausas). Así el ritmo coincide con el "moving pace" de Adidas,
+      // en lugar del tiempo total de la sesión (que incluye paradas).
+      const movingMs = dseg.reduce(
+        (acc, x) => acc + Math.max(0, ms(x.end_time) - ms(x.start_time)), 0
+      );
+      const ritmo = (distKm > 0 && movingMs > 0)
+        ? fmtPace((movingMs / 1000) / distKm) : null;
+
       const hrs = hrSamples
         .filter((x) => ms(x.start_time) >= a && ms(x.start_time) <= b)
         .map((x) => x.value);
       const fc = hrs.length ? Math.round(hrs.reduce((p, c) => p + c, 0) / hrs.length) : null;
 
-      revisadas.push({ start: s.start_time, distKm: +distKm.toFixed(3), fc });
+      revisadas.push({ start: s.start_time, distKm: +distKm.toFixed(3), ritmo, fc });
       if (distKm < 1) continue; // ignora tests/tramos muy cortos
 
       const payload = {
         date: s.start_time.slice(0, 10),
         dist: +distKm.toFixed(2),
+        ritmo,
         fc,
         start: s.start_time,
         end: s.end_time,
