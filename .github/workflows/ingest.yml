@@ -19,6 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # historial completo para poder hacer rebase
 
       - name: Agregar corrida a imported_runs.json
         env:
@@ -37,7 +39,19 @@ jobs:
           git add imported_runs.json
           if git diff --cached --quiet; then
             echo "Sin corridas nuevas para ingestar."
-          else
-            git commit -m "Ingestar corrida de Adidas ($(date -u +%Y-%m-%dT%H:%M))"
-            git push
+            exit 0
           fi
+          git commit -m "Ingestar corrida de Adidas ($(date -u +%Y-%m-%dT%H:%M))"
+          # Push resiliente: ante carrera con otros ingests o el build diario,
+          # integra lo remoto (rebase) y reintenta.
+          for i in 1 2 3 4 5; do
+            if git push origin HEAD:main; then
+              echo "Publicado (intento $i)."
+              exit 0
+            fi
+            echo "Push rechazado (carrera); rebase y reintento ($i)..."
+            git pull --rebase origin main || true
+            sleep $((RANDOM % 5 + 2))
+          done
+          echo "No se pudo pushear tras 5 intentos."
+          exit 1
