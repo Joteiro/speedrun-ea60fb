@@ -150,6 +150,11 @@
     font-size: .9rem;
   }
   .run-date span { color: var(--ink-faint); font-weight: 500; margin-left: 6px; }
+  .run-date .run-nota {
+    display: inline-block; margin-left: 8px; color: var(--accent);
+    background: var(--accent-dim); font-weight: 600; font-size: .72rem;
+    padding: 1px 8px; border-radius: 999px; vertical-align: middle;
+  }
   .run-hr {
     font-family: "Barlow Semi Condensed", sans-serif;
     font-variant-numeric: tabular-nums; font-weight: 700; font-size: .95rem;
@@ -356,21 +361,25 @@
   // ---- Runs chart ----
   const easyPct = pct(145);
   document.getElementById("runs").innerHTML = runs.map(r => {
-    const c = cls(r.fc);
+    const hasFc = r.fc != null;
+    const c = hasFc ? cls(r.fc) : null;
     const dist = r.dist ? `<span>${r.dist} km${r.ritmo?` · ${r.ritmo}/km`:''}</span>` : `<span>sin GPS fiable</span>`;
+    const nota = r.nota ? `<span class="run-nota">${r.nota}</span>` : "";
+    const hr = hasFc
+      ? `<span class="run-hr"><b>${r.fc}</b> <small>ppm · ${Math.round(r.fc/MAXHR*100)}%</small></span>
+         <span class="run-tag t-${c}">${label(c)}</span>`
+      : `<span class="run-hr"><small>FC s/d</small></span>`;
+    const fill = hasFc
+      ? `<div class="fill" style="width:${pct(r.fc)}%;background:${clr(c)}"></div>
+         <div class="easy-line" style="left:${easyPct}%"></div>`
+      : "";
     return `
     <div class="run">
       <div class="run-top">
-        <div class="run-date">${r.fecha}${dist}</div>
-        <div style="display:flex;align-items:center;gap:8px">
-          <span class="run-hr"><b>${r.fc}</b> <small>ppm · ${Math.round(r.fc/MAXHR*100)}%</small></span>
-          <span class="run-tag t-${c}">${label(c)}</span>
-        </div>
+        <div class="run-date">${r.fecha}${dist}${nota}</div>
+        <div style="display:flex;align-items:center;gap:8px">${hr}</div>
       </div>
-      <div class="track">
-        <div class="fill" style="width:${pct(r.fc)}%;background:${clr(c)}"></div>
-        <div class="easy-line" style="left:${easyPct}%"></div>
-      </div>
+      <div class="track">${fill}</div>
     </div>`;
   }).join("");
 

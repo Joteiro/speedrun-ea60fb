@@ -118,6 +118,8 @@ def fetch_runs():
 
 MANUAL_PATH = BASE / "manual_runs.json"
 IMPORTED_PATH = BASE / "imported_runs.json"
+NOTAS_PATH = BASE / "notas.json"
+MIN_DATE = "2026-09-01"  # no mostrar corridas anteriores (ruido sin GPS fiable)
 
 
 def _pace_from(dist_km, start, end):
@@ -178,16 +180,28 @@ def merge_runs(oura_rows, extra_rows):
     return merged
 
 
+def load_notas():
+    """Etiquetas de sesión por fecha (fartlek, tempo, pasadas...) desde notas.json.
+
+    Formato: { "2026-10-06": "Fartlek 6×1'", "2026-10-13": "Tempo 2×10'" }
+    Son aditivas: NO reemplazan la corrida (que trae el GPS de Adidas), solo le
+    cuelgan una etiqueta de qué tipo de sesión fue.
+    """
+    if not NOTAS_PATH.exists():
+        return {}
+    return json.loads(NOTAS_PATH.read_text(encoding="utf-8"))
+
+
 def js_array(rows):
     def val(x):
         if x is None:
             return "null"
         if isinstance(x, str):
-            return f'"{x}"'
+            return '"' + x.replace('"', '\\"') + '"'
         return str(x)
     lines = [
         f'    {{ fecha:{val(r["fecha"])}, dist:{val(r["dist"])}, '
-        f'ritmo:{val(r["ritmo"])}, fc:{val(r["fc"])} }},'
+        f'ritmo:{val(r["ritmo"])}, fc:{val(r["fc"])}, nota:{val(r.get("nota"))} }},'
         for r in rows
     ]
     return "\n".join(lines)
@@ -238,6 +252,14 @@ def git_publish():
 
 def main():
     rows = merge_runs(fetch_runs(), load_all_extra())
+    # Recortar lo anterior a MIN_DATE (corridas viejas sin GPS, poco útiles)
+    rows = [r for r in rows if r["_day"] >= MIN_DATE]
+    # Colgar etiquetas de sesión (fartlek/tempo/pasadas) por fecha
+    notas = load_notas()
+    for r in rows:
+        if notas.get(r["_day"]):
+            r["nota"] = notas[r["_day"]]
+    print(f"Runnings a mostrar (desde {MIN_DATE}): {len(rows)}")
     build_html(rows)
     if "--no-push" not in sys.argv:
         git_publish()
