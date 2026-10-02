@@ -1,0 +1,7 @@
+# Le dice a Cloudflare que este proyecto es un Worker con CÓDIGO (no solo
+# archivos estáticos). Con 'main' apuntando al script, el deploy publica la
+# función y recién ahí se pueden cargar variables/secretos (GH_DISPATCH_PAT,
+# WEBHOOK_SECRET) en Settings → Variables and secrets.
+name = "speedrun-ea60fb"
+main = "cloudflare_worker.js"
+compatibility_date = "2024-11-01"
