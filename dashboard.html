@@ -166,6 +166,14 @@
     color: var(--accent); background: var(--accent-dim); border-color: transparent;
   }
   .run-date .run-tipo:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .run-date .run-ritmo {
+    width: 3.2em; text-align: center; font: inherit;
+    font-family: "Barlow Semi Condensed", sans-serif; font-weight: 600;
+    color: var(--ink-faint); background: transparent;
+    border: 1px dashed var(--border); border-radius: 6px; padding: 0 2px;
+  }
+  .run-date .run-ritmo.set { color: var(--accent); border-color: var(--accent); border-style: solid; }
+  .run-date .run-ritmo:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
   .run-hr {
     font-family: "Barlow Semi Condensed", sans-serif;
     font-variant-numeric: tabular-nums; font-weight: 700; font-size: .95rem;
@@ -292,7 +300,7 @@
         <span><i class="dot" style="background:var(--hard)"></i>Muy fuerte &gt;160</span>
       </div>
       <div id="runs"></div>
-      <div class="easy-note"><span class="mini-line"></span> línea de rodaje fácil · escala 100–191 ppm · ritmo = tiempo total (p/ ritmo exacto, ver Adidas)</div>
+      <div class="easy-note"><span class="mini-line"></span> línea de rodaje fácil · escala 100–191 ppm · ritmo = tiempo total; tocá el ritmo para corregirlo con el de Adidas</div>
     </div>
   </section>
 
@@ -345,6 +353,15 @@
   ];
   /* DATA_END */
 
+  // Correcciones manuales de ritmo (por dispositivo): localStorage "pace:<dia>".
+  // Pisan el ritmo calculado para que coincida con lo que marcó Adidas.
+  runs.forEach(r => {
+    try {
+      const p = localStorage.getItem("pace:" + r.dia);
+      if (p) { r.ritmo = p; r._paceEdit = true; }
+    } catch (e) {}
+  });
+
   const pct = bpm => Math.max(0, Math.min(100, (bpm - 100) / (MAXHR - 100) * 100));
   const cls = fc => fc <= 145 ? "easy" : (fc <= 160 ? "mod" : "hard");
   const clr = c => c === "easy" ? "var(--easy)" : c === "mod" ? "var(--mod)" : "var(--hard)";
@@ -382,7 +399,8 @@
   document.getElementById("runs").innerHTML = runs.map(r => {
     const hasFc = r.fc != null;
     const c = hasFc ? cls(r.fc) : null;
-    const dist = r.dist ? `<span>${r.dist} km${r.ritmo?` · ${r.ritmo}/km`:''}</span>` : `<span>sin GPS fiable</span>`;
+    const paceInput = `<input class="run-ritmo${r._paceEdit?' set':''}" data-dia="${r.dia}" value="${r.ritmo||''}" placeholder="m:ss" inputmode="text" aria-label="Ritmo min/km (editable)">`;
+    const dist = r.dist ? `<span>${r.dist} km · ${paceInput}/km</span>` : `<span>sin GPS fiable</span>`;
     const tipo = getTipo(r.dia, r.nota);
     const opts = ['<option value="">+ tipo</option>']
       .concat(TIPOS.map(t => `<option value="${t}"${t === tipo ? " selected" : ""}>${t}</option>`))
@@ -411,6 +429,24 @@
     s.addEventListener("change", () => {
       try { localStorage.setItem("tipo:" + s.dataset.dia, s.value); } catch (e) {}
       s.classList.toggle("set", !!s.value);
+    });
+  });
+
+  // Corregir a mano el ritmo (por dispositivo). Formato m:ss; vacío = volver al calculado.
+  document.querySelectorAll(".run-ritmo").forEach(inp => {
+    inp.addEventListener("change", () => {
+      const v = inp.value.trim();
+      try {
+        if (/^\d{1,2}:\d{2}$/.test(v)) {
+          localStorage.setItem("pace:" + inp.dataset.dia, v);
+          inp.classList.add("set");
+        } else if (v === "") {
+          localStorage.removeItem("pace:" + inp.dataset.dia);
+          inp.classList.remove("set");
+        } else {
+          inp.value = "";  // formato inválido: limpiar, no guardar
+        }
+      } catch (e) {}
     });
   });
 
