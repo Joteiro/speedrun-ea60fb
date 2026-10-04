@@ -292,7 +292,7 @@
         <span><i class="dot" style="background:var(--hard)"></i>Muy fuerte &gt;160</span>
       </div>
       <div id="runs"></div>
-      <div class="easy-note"><span class="mini-line"></span> línea de rodaje fácil · escala 100–191 ppm</div>
+      <div class="easy-note"><span class="mini-line"></span> línea de rodaje fácil · escala 100–191 ppm · ritmo = tiempo total (p/ ritmo exacto, ver Adidas)</div>
     </div>
   </section>
 
@@ -307,7 +307,7 @@
   </section>
 
   <section>
-    <h2 class="sec-title">Plan · 13 semanas</h2>
+    <h2 class="sec-title">Plan · 7 semanas</h2>
     <p class="sec-sub">Tocá cada fase para ver las sesiones. 2 sesiones fijas + 1 opcional por semana.</p>
     <div id="plan"></div>
   </section>
@@ -323,7 +323,7 @@
   const MAXHR = 191;
 
   /* DATA_START — generado por build_dashboard.py, no editar a mano */
-  const DATA_DATE = "03 oct 2026";
+  const DATA_DATE = "04 oct 2026";
   const runs = [
     { fecha:"03 sep", dist:5.02, ritmo:"6:06", fc:166, nota:null, dia:"2026-09-03" },
     { fecha:"08 sep", dist:5.1, ritmo:"6:53", fc:144, nota:"Rodaje", dia:"2026-09-08" },
@@ -429,29 +429,31 @@
 
   // ---- Plan ----
   const plan = [
-    { name:"Base", weeks:"Sem 1–4", obj:"Acostumbrar el cuerpo a correr 2–3×/sem", c:"var(--easy)", now:true,
+    { name:"Base / Reactivación", weeks:"Sem 1–2", obj:"Volver al ritmo, rodajes por FC + primer fartlek", c:"var(--easy)", now:true,
       sessions:[
-        ["A · Rodaje fácil","4,5–5 km a 6:10–6:40/km. Sensación: podrías mantener una conversación. Deliberadamente lento."],
-        ["B · Rodaje + aceleraciones","4–5 km fáciles + al final 4 × 20″ rápidos (no sprint), 60–90″ caminando entre cada uno."],
-        ["C · Opcional","30–40 min muy suaves. Si tuviste partido intenso de tenis, saltala."],
-        ["Sem 3–4","Subir a 5–5,5 km fáciles. En B: 3 × 5 min a ~5:35–5:45/km con 2 min suaves. Que 5–6 km se sientan normales."],
+        ["A · Rodaje + rectas","5 km fácil (~7:15/km, FC<145) + al final 4 × 20″ más ágiles, caminando la vuelta."],
+        ["B · Fartlek introductorio","10′ suave + 6 × (1′ ágil ~6:00 / 2′ suave) + 5′ suave. El ágil es controlado, no sprint."],
+        ["C · Largo fácil","7–8 km muy suaves (FC<145). Esta vez, lento de verdad."],
+        ["Sem 2","Igual, subiendo el largo a 8–9 km y el fartlek a 8 × (1′/2′)."],
+        ["💪 Fuerza/prehab","2× semana: sentadillas, estocadas, puente de glúteos y bajadas lentas (excéntrico de cuádriceps). Sin dolor."],
       ]},
-    { name:"Desarrollo", weeks:"Sem 5–8", obj:"Aumentar distancia + introducir tempo", c:"var(--mod)",
+    { name:"Desarrollo", weeks:"Sem 3–4", obj:"Introducir el tempo, subir el largo (80/20)", c:"var(--mod)",
       sessions:[
-        ["Tempo (nuevo)","No es sprint: ritmo incómodo pero sostenible ~30–50 min. Es la clave para acercarte a 5:00/km."],
-        ["Sem 5–6","B: 3 × 7 min a 5:25–5:35, luego 2 × 10 min a 5:20–5:30. Rodajes fáciles a 6:00–6:30."],
-        ["Sem 7","Bajar carga: 5 × 4 min a 5:10–5:20 con 2 min de recuperación."],
-        ["Sem 8 · TEST 5K","Calentar 10–15 min + 3–4 progresivos, luego mejor 5K controlado. No salir a 5:00 desde el metro 1. Este número decide todo."],
+        ["Tempo (nuevo)","10′ fácil + 2 × 8–10′ a ~6:00–6:15/km (cómodo-duro, no podés charlar) + 5′ fácil."],
+        ["Rodaje + rectas","5–6 km fáciles (FC<145) + 4–6 × 20″ rectas."],
+        ["Largo","9–10 km fácil. Mantener FC<145 aunque el ritmo parezca lento."],
       ]},
-    { name:"Específica 10K", weeks:"Sem 9–11", obj:"Trabajar ritmos cercanos a 5:00/km", c:"#E2662E",
+    { name:"Específica 10K", weeks:"Sem 5–6", obj:"Ritmo objetivo de carrera + pasadas", c:"#E2662E",
       sessions:[
-        ["Decisión","5K ≈ 24:30–25:00 → 50′ razonable. 25:30–26:00 → posible pero agresivo. >26:30 → objetivo más conservador. ~24 → apuntar más alto."],
-        ["Enfoque","Sesiones a ritmo objetivo de carrera, volumen sostenido, un rodaje largo fácil por semana."],
+        ["Pasadas (si el cuádriceps OK)","5–6 × 800 m a ~5:30–5:45/km, recuperando 200 m trotando. Tu primer trabajo duro de verdad — entra gradual."],
+        ["Ritmo objetivo","Tramos a ~6:00–6:10/km (ritmo de los 10K). Ej: 4 × 6′ a ritmo con 2′ suaves."],
+        ["Largo","Hasta 10 km. Un día, ensayo de 6–8 km a ritmo de carrera."],
       ]},
-    { name:"Puesta a punto", weeks:"Sem 12–13", obj:"Reducir volumen y llegar fresco", c:"var(--accent)",
+    { name:"Puesta a punto", weeks:"Sem 7 · carrera 22/11", obj:"Bajar volumen y llegar fresco", c:"var(--accent)",
       sessions:[
-        ["Tapering","Bajar el volumen manteniendo algo de intensidad corta. Priorizar descanso, sueño y recovery de Oura."],
-        ["Semana de carrera","Salidas muy cortas y suaves, un par de aceleraciones para activar. Llegar descansado, no cansado."],
+        ["Taper","Reducir el volumen ~40%, manteniendo algo de ritmo corto. Priorizar descanso, sueño y readiness de Oura."],
+        ["Semana de carrera","Salidas cortas y suaves + 4–6 × 200 m para activar. Llegar descansado, no cansado."],
+        ["🏁 Carrera","22/11 · 10K. Objetivo: terminar entero, ~60–63 min (~6:00–6:15/km). Salir conservador."],
       ]},
   ];
   document.getElementById("plan").innerHTML = plan.map((p,i) => `
@@ -472,19 +474,15 @@
   document.getElementById("tag-updated").textContent = "Datos al " + DATA_DATE;
 
   // ---- Cuenta regresiva en vivo ----
-  const RACE = new Date("2026-11-01T00:00:00");
+  const RACE = new Date("2026-11-22T00:00:00");
   const today = new Date();
   const days = Math.max(0, Math.ceil((RACE - today) / 86400000));
   const weeks = Math.floor(days / 7);
   document.getElementById("tag-countdown").textContent =
-    `🏁 1 nov · faltan ${days} días`;
+    `🏁 22 nov · faltan ${days} días`;
 
-  // Nota: el plan es de 13 semanas pero quedan menos; avisar en el plan.
   const planSub = document.querySelector("#plan").previousElementSibling;
-  if (weeks < 13) {
-    planSub.innerHTML =
-      `Quedan <b>~${weeks} semanas</b> hasta la carrera y el plan completo es de 13, ` +
-      `así que hay que comprimirlo (fases más cortas o arrancar directo en Desarrollo). ` +
-      `Tocá cada fase para ver las sesiones.`;
-  }
+  planSub.innerHTML =
+    `Quedan <b>~${weeks} semanas</b> hasta el 22/11. Tocá cada fase para ver las sesiones. ` +
+    `La mayoría de los km, fáciles (FC<145); la intensidad, gradual.`;
 </script>
