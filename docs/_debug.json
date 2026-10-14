@@ -1,83 +1,11 @@
 {
   "endpoint": "https://api.ouraring.com/v2/usercollection/workout",
   "rango_consultado": {
-    "start_date": "2025-09-08",
-    "end_date": "2026-10-13"
+    "start_date": "2025-09-09",
+    "end_date": "2026-10-14"
   },
-  "total_workouts_en_rango": 1343,
+  "total_workouts_en_rango": 1346,
   "workouts_ultimos_12_dias_crudos": [
-    {
-      "id": "8a8de88f-b2ad-4995-aafb-d3b335f2341f",
-      "activity": "walking",
-      "calories": 41.79241943359375,
-      "day": "2026-10-01",
-      "distance": null,
-      "end_datetime": "2026-10-01T09:38:00.000+02:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-10-01T09:23:00.000+02:00"
-    },
-    {
-      "id": "7e110486-9fa6-40ce-9890-618a11585679",
-      "activity": "tennis",
-      "calories": 387.11895751953125,
-      "day": "2026-10-01",
-      "distance": 305.86757410342193,
-      "end_datetime": "2026-10-01T12:08:00.000+02:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-10-01T11:02:00.000+02:00"
-    },
-    {
-      "id": "e9b89788-7db1-4b91-a0dd-28b42ce92d75",
-      "activity": "walking",
-      "calories": 127.09040832519531,
-      "day": "2026-10-01",
-      "distance": 1267.7444096943648,
-      "end_datetime": "2026-10-01T14:24:00.000+02:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-10-01T13:56:00.000+02:00"
-    },
-    {
-      "id": "5146f2c1-4729-4578-a722-6726a326f137",
-      "activity": "walking",
-      "calories": 83.3932876586914,
-      "day": "2026-10-01",
-      "distance": 1208.1581161053552,
-      "end_datetime": "2026-10-01T15:20:00.000+02:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-10-01T14:59:00.000+02:00"
-    },
-    {
-      "id": "64f1bc4a-0c78-461b-8d93-c4230ac638a0",
-      "activity": "walking",
-      "calories": 136.09901428222656,
-      "day": "2026-10-01",
-      "distance": 1537.1533590112724,
-      "end_datetime": "2026-10-01T20:41:00.000+02:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-10-01T20:12:00.000+02:00"
-    },
-    {
-      "id": "8abb770c-7326-426c-b6c5-7b344d303cb7",
-      "activity": "walking",
-      "calories": 119.50808715820312,
-      "day": "2026-10-01",
-      "distance": 1741.462007108084,
-      "end_datetime": "2026-10-01T22:37:00.000+02:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-10-01T21:59:00.000+02:00"
-    },
     {
       "id": "8ae08beb-5d53-45b2-8a5a-8e38e8521a5f",
       "activity": "walking",
@@ -545,6 +473,42 @@
       "label": null,
       "source": "manual",
       "start_datetime": "2026-10-12T18:08:08.000+02:00"
+    },
+    {
+      "id": "de73210c-8b6b-4598-93d2-cd3083cd4f23",
+      "activity": "walking",
+      "calories": 39.41009521484375,
+      "day": "2026-10-13",
+      "distance": null,
+      "end_datetime": "2026-10-13T18:30:54.000+02:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "manual",
+      "start_datetime": "2026-10-13T18:22:54.000+02:00"
+    },
+    {
+      "id": "dec8f863-1bf3-4798-8644-d1ddf9e019b1",
+      "activity": "boxing",
+      "calories": 947.2689208984375,
+      "day": "2026-10-13",
+      "distance": 23.039133510398283,
+      "end_datetime": "2026-10-13T19:30:21.000+02:00",
+      "intensity": "hard",
+      "label": null,
+      "source": "manual",
+      "start_datetime": "2026-10-13T18:30:21.000+02:00"
+    },
+    {
+      "id": "565d75aa-28c2-48eb-a265-5bd61b2abc2b",
+      "activity": "walking",
+      "calories": 58.37978744506836,
+      "day": "2026-10-13",
+      "distance": 437.58396985596744,
+      "end_datetime": "2026-10-13T19:45:00.000+02:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "confirmed",
+      "start_datetime": "2026-10-13T19:31:00.000+02:00"
     }
   ]
 }
