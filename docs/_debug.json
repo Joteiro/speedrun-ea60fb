@@ -1,35 +1,11 @@
 {
   "endpoint": "https://api.ouraring.com/v2/usercollection/workout",
   "rango_consultado": {
-    "start_date": "2025-09-09",
-    "end_date": "2026-10-14"
+    "start_date": "2025-09-10",
+    "end_date": "2026-10-15"
   },
-  "total_workouts_en_rango": 1346,
+  "total_workouts_en_rango": 1348,
   "workouts_ultimos_12_dias_crudos": [
-    {
-      "id": "8ae08beb-5d53-45b2-8a5a-8e38e8521a5f",
-      "activity": "walking",
-      "calories": 29.893611907958984,
-      "day": "2026-10-02",
-      "distance": 39.64922631992424,
-      "end_datetime": "2026-10-02T14:27:00.000+02:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-10-02T14:15:00.000+02:00"
-    },
-    {
-      "id": "e130b434-aecc-41e9-81d0-3489add7145a",
-      "activity": "gymnastics",
-      "calories": 87.26116943359375,
-      "day": "2026-10-02",
-      "distance": null,
-      "end_datetime": "2026-10-02T20:09:00.000+02:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-10-02T19:50:00.000+02:00"
-    },
     {
       "id": "5ee98f15-addc-40ff-9b25-d8c245073a34",
       "activity": "gymnastics",
@@ -509,6 +485,30 @@
       "label": null,
       "source": "confirmed",
       "start_datetime": "2026-10-13T19:31:00.000+02:00"
+    },
+    {
+      "id": "91f8a607-1d8b-4ae2-954c-d83c7c7a6532",
+      "activity": "walking",
+      "calories": 37.98979187011719,
+      "day": "2026-10-14",
+      "distance": 606.7755331784713,
+      "end_datetime": "2026-10-14T12:00:01.000+02:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "manual",
+      "start_datetime": "2026-10-14T11:52:01.000+02:00"
+    },
+    {
+      "id": "2685bf8f-c443-4e4b-8b7a-18fe05bf1a3b",
+      "activity": "tennis",
+      "calories": 398.0367431640625,
+      "day": "2026-10-14",
+      "distance": 37.77551236224014,
+      "end_datetime": "2026-10-14T13:05:00.000+02:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "confirmed",
+      "start_datetime": "2026-10-14T12:05:00.000+02:00"
     }
   ]
 }
