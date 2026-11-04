@@ -1,8 +1,8 @@
 name: Ingestar corrida de Adidas (Hooksy)
 
-# Lo dispara Pipedream cuando Hooksy manda una corrida nueva, via:
+# Lo dispara el Cloudflare Worker cuando Hooksy manda una corrida, vía:
 #   POST /repos/OWNER/REPO/dispatches
-#   { "event_type": "nueva_corrida", "client_payload": { date, dist, fc, start, end } }
+#   { "event_type": "nueva_corrida", "client_payload": { date, dist, ritmo, fc, start, end } }
 on:
   repository_dispatch:
     types: [nueva_corrida]
@@ -10,19 +10,17 @@ on:
 permissions:
   contents: write
 
-concurrency:
-  group: ingest-dashboard
-  cancel-in-progress: false
+# Sin 'concurrency': el Worker dispara varias corridas casi a la vez y la
+# concurrencia podía CANCELAR ingestas pendientes (perdiendo corridas). En su
+# lugar, el paso de abajo es idempotente y reintenta desde el remoto fresco.
 
 jobs:
   ingest:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0   # historial completo para poder hacer rebase
 
-      - name: Agregar corrida a imported_runs.json
+      - name: Ingestar y publicar (robusto ante escrituras concurrentes)
         env:
           RUN_DATE:  ${{ github.event.client_payload.date }}
           RUN_DIST:  ${{ github.event.client_payload.dist }}
@@ -30,28 +28,27 @@ jobs:
           RUN_FC:    ${{ github.event.client_payload.fc }}
           RUN_START: ${{ github.event.client_payload.start }}
           RUN_END:   ${{ github.event.client_payload.end }}
-        run: python ingest_run.py
-
-      - name: Commit si hay cambios
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add imported_runs.json
-          if git diff --cached --quiet; then
-            echo "Sin corridas nuevas para ingestar."
-            exit 0
-          fi
-          git commit -m "Ingestar corrida de Adidas ($(date -u +%Y-%m-%dT%H:%M))"
-          # Push resiliente: ante carrera con otros ingests o el build diario,
-          # integra lo remoto (rebase) y reintenta.
-          for i in 1 2 3 4 5; do
-            if git push origin HEAD:main; then
-              echo "Publicado (intento $i)."
+          for i in 1 2 3 4 5 6 7; do
+            # Partir SIEMPRE del último estado remoto y re-aplicar (ingest_run.py
+            # agrega si falta / actualiza si existe) → sin rebase, sin conflictos.
+            git fetch -q origin main
+            git reset -q --hard origin/main
+            python ingest_run.py
+            git add imported_runs.json
+            if git diff --cached --quiet; then
+              echo "Nada que cambiar (ya estaba ingestada)."
               exit 0
             fi
-            echo "Push rechazado (carrera); rebase y reintento ($i)..."
-            git pull --rebase origin main || true
-            sleep $((RANDOM % 5 + 2))
+            git commit -q -m "Ingestar corrida de Adidas ($(date -u +%Y-%m-%dT%H:%M))"
+            if git push -q origin HEAD:main; then
+              echo "Publicada (intento $i)."
+              exit 0
+            fi
+            echo "Push rechazado por carrera; reintento desde remoto fresco ($i)..."
+            sleep $((RANDOM % 4 + 2))
           done
-          echo "No se pudo pushear tras 5 intentos."
+          echo "No se pudo publicar tras 7 intentos."
           exit 1
