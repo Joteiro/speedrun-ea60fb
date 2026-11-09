@@ -1,47 +1,11 @@
 {
   "endpoint": "https://api.ouraring.com/v2/usercollection/workout",
   "rango_consultado": {
-    "start_date": "2025-10-04",
-    "end_date": "2026-11-08"
+    "start_date": "2025-10-05",
+    "end_date": "2026-11-09"
   },
   "total_workouts_en_rango": 1337,
   "workouts_ultimos_12_dias_crudos": [
-    {
-      "id": "313389e9-8ae1-4785-8974-a779f34ec92b",
-      "activity": "tennis",
-      "calories": 371.67791748046875,
-      "day": "2026-10-27",
-      "distance": 115.3317428443467,
-      "end_datetime": "2026-10-27T13:05:00.000+01:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-10-27T12:06:00.000+01:00"
-    },
-    {
-      "id": "2bdf7474-1e51-4de3-a454-033d4167eac5",
-      "activity": "walking",
-      "calories": 45.11321258544922,
-      "day": "2026-10-27",
-      "distance": null,
-      "end_datetime": "2026-10-27T19:06:00.000+01:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-10-27T18:53:00.000+01:00"
-    },
-    {
-      "id": "50c31323-cf70-4171-b920-e5bec127470c",
-      "activity": "walking",
-      "calories": 46.650726318359375,
-      "day": "2026-10-27",
-      "distance": 412.15605662341846,
-      "end_datetime": "2026-10-27T19:32:00.000+01:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-10-27T19:19:00.000+01:00"
-    },
     {
       "id": "aca8272a-7435-42d5-9d8a-5d458b3e2a21",
       "activity": "strengthTraining",
@@ -521,6 +485,78 @@
       "label": null,
       "source": "confirmed",
       "start_datetime": "2026-11-07T20:56:00.000+01:00"
+    },
+    {
+      "id": "52b6d8bb-8fb7-419d-8918-c1533c38740f",
+      "activity": "walking",
+      "calories": 30.04106903076172,
+      "day": "2026-11-08",
+      "distance": 28.454068747263552,
+      "end_datetime": "2026-11-08T08:49:00.000+01:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "confirmed",
+      "start_datetime": "2026-11-08T08:36:00.000+01:00"
+    },
+    {
+      "id": "1788994f-9d57-48cc-9157-9314ffe09c8e",
+      "activity": "walking",
+      "calories": 86.247314453125,
+      "day": "2026-11-08",
+      "distance": 1371.3845479867732,
+      "end_datetime": "2026-11-08T09:46:00.000+01:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "confirmed",
+      "start_datetime": "2026-11-08T09:27:00.000+01:00"
+    },
+    {
+      "id": "39b07bdf-b7dc-47db-9dcb-123bd9fa5921",
+      "activity": "hiking",
+      "calories": 181.19000244140625,
+      "day": "2026-11-08",
+      "distance": 1654.327610803089,
+      "end_datetime": "2026-11-08T13:43:00.000+01:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "confirmed",
+      "start_datetime": "2026-11-08T12:58:00.000+01:00"
+    },
+    {
+      "id": "c781ef7b-0597-4263-b90c-13d078868684",
+      "activity": "walking",
+      "calories": 45.58220672607422,
+      "day": "2026-11-08",
+      "distance": null,
+      "end_datetime": "2026-11-08T14:52:00.000+01:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "confirmed",
+      "start_datetime": "2026-11-08T14:41:00.000+01:00"
+    },
+    {
+      "id": "829d252c-1720-443c-941d-2f2b2b0c75b6",
+      "activity": "walking",
+      "calories": 71.77898406982422,
+      "day": "2026-11-08",
+      "distance": 96.75640225427946,
+      "end_datetime": "2026-11-08T17:00:54.000+01:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "manual",
+      "start_datetime": "2026-11-08T16:20:54.000+01:00"
+    },
+    {
+      "id": "e2b7a293-9a50-45ef-9984-c10fc4f098ef",
+      "activity": "walking",
+      "calories": 39.13111877441406,
+      "day": "2026-11-08",
+      "distance": 354.6750688590804,
+      "end_datetime": "2026-11-08T18:20:00.000+01:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "confirmed",
+      "start_datetime": "2026-11-08T18:10:00.000+01:00"
     }
   ]
 }
