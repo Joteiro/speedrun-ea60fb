@@ -4,7 +4,7 @@
     "start_date": "2025-10-11",
     "end_date": "2026-11-15"
   },
-  "total_workouts_en_rango": 1335,
+  "total_workouts_en_rango": 1334,
   "workouts_ultimos_12_dias_crudos": [
     {
       "id": "8f8c892f-705c-444e-a5fd-1192b95d77b9",
@@ -533,18 +533,6 @@
       "label": null,
       "source": "confirmed",
       "start_datetime": "2026-11-13T11:38:00.000+01:00"
-    },
-    {
-      "id": "f51399a8-10f5-4cce-82ee-3c059bba3c84",
-      "activity": "running",
-      "calories": 169.8014678955078,
-      "day": "2026-11-13",
-      "distance": 388.44366550699357,
-      "end_datetime": "2026-11-13T18:33:00.000+01:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-11-13T18:19:00.000+01:00"
     },
     {
       "id": "8e2de032-198f-438c-88b0-bcfe81cdf6bc",
