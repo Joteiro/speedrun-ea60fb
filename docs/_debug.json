@@ -1,23 +1,11 @@
 {
   "endpoint": "https://api.ouraring.com/v2/usercollection/workout",
   "rango_consultado": {
-    "start_date": "2025-10-10",
-    "end_date": "2026-11-14"
+    "start_date": "2025-10-11",
+    "end_date": "2026-11-15"
   },
-  "total_workouts_en_rango": 1336,
+  "total_workouts_en_rango": 1335,
   "workouts_ultimos_12_dias_crudos": [
-    {
-      "id": "5625ecc1-57e6-4a04-8e13-7021590c400d",
-      "activity": "tennis",
-      "calories": 389.3342590332031,
-      "day": "2026-11-02",
-      "distance": null,
-      "end_datetime": "2026-11-02T17:00:00.000+01:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-11-02T16:00:00.000+01:00"
-    },
     {
       "id": "8f8c892f-705c-444e-a5fd-1192b95d77b9",
       "activity": "boxing",
@@ -581,6 +569,42 @@
       "label": null,
       "source": "confirmed",
       "start_datetime": "2026-11-13T20:22:00.000+01:00"
+    },
+    {
+      "id": "8804fd82-f84c-48f0-9ec2-5941af6a15ab",
+      "activity": "walking",
+      "calories": 42.110137939453125,
+      "day": "2026-11-13",
+      "distance": null,
+      "end_datetime": "2026-11-14T01:46:00.000+01:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "confirmed",
+      "start_datetime": "2026-11-14T01:31:00.000+01:00"
+    },
+    {
+      "id": "5d790144-9a50-4a12-8abe-48874a558e29",
+      "activity": "walking",
+      "calories": 47.66835403442383,
+      "day": "2026-11-14",
+      "distance": 27.941562801497053,
+      "end_datetime": "2026-11-14T12:31:00.000+01:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "confirmed",
+      "start_datetime": "2026-11-14T12:20:00.000+01:00"
+    },
+    {
+      "id": "e3a7e79d-c9e9-4b72-9a0a-590187a2e79f",
+      "activity": "boxing",
+      "calories": 868.07470703125,
+      "day": "2026-11-14",
+      "distance": null,
+      "end_datetime": "2026-11-14T13:30:10.000+01:00",
+      "intensity": "hard",
+      "label": null,
+      "source": "manual",
+      "start_datetime": "2026-11-14T12:35:10.000+01:00"
     }
   ]
 }
