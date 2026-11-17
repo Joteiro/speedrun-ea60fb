@@ -1,35 +1,11 @@
 {
   "endpoint": "https://api.ouraring.com/v2/usercollection/workout",
   "rango_consultado": {
-    "start_date": "2025-10-12",
-    "end_date": "2026-11-16"
+    "start_date": "2025-10-13",
+    "end_date": "2026-11-17"
   },
-  "total_workouts_en_rango": 1326,
+  "total_workouts_en_rango": 1324,
   "workouts_ultimos_12_dias_crudos": [
-    {
-      "id": "ac04464d-84d4-49ca-9243-e206d884d6fe",
-      "activity": "walking",
-      "calories": 223.42745971679688,
-      "day": "2026-11-04",
-      "distance": 3022.7964552913036,
-      "end_datetime": "2026-11-04T19:37:00.000+01:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-11-04T18:57:00.000+01:00"
-    },
-    {
-      "id": "cbfd815e-6171-45bd-93ad-b8c6742d7b38",
-      "activity": "walking",
-      "calories": 39.24283981323242,
-      "day": "2026-11-04",
-      "distance": 835.6048759340234,
-      "end_datetime": "2026-11-04T22:25:00.000+01:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-11-04T22:14:00.000+01:00"
-    },
     {
       "id": "6e6bf321-c1ca-4390-9e13-b7f30b6b3daa",
       "activity": "walking",
@@ -605,6 +581,18 @@
       "label": null,
       "source": "confirmed",
       "start_datetime": "2026-11-15T19:04:00.000+01:00"
+    },
+    {
+      "id": "b95b3499-82a5-4665-ae72-7e473441af7d",
+      "activity": "walking",
+      "calories": 33.215606689453125,
+      "day": "2026-11-16",
+      "distance": 27.858022715123074,
+      "end_datetime": "2026-11-16T07:47:00.000+01:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "confirmed",
+      "start_datetime": "2026-11-16T07:36:00.000+01:00"
     }
   ]
 }
