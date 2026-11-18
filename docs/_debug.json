@@ -1,35 +1,11 @@
 {
   "endpoint": "https://api.ouraring.com/v2/usercollection/workout",
   "rango_consultado": {
-    "start_date": "2025-10-13",
-    "end_date": "2026-11-17"
+    "start_date": "2025-10-14",
+    "end_date": "2026-11-18"
   },
-  "total_workouts_en_rango": 1324,
+  "total_workouts_en_rango": 1323,
   "workouts_ultimos_12_dias_crudos": [
-    {
-      "id": "6e6bf321-c1ca-4390-9e13-b7f30b6b3daa",
-      "activity": "walking",
-      "calories": 52.057010650634766,
-      "day": "2026-11-05",
-      "distance": 58.504315122143495,
-      "end_datetime": "2026-11-05T18:36:00.000+01:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-11-05T18:20:00.000+01:00"
-    },
-    {
-      "id": "86ae7b1b-da2a-42a6-b4a9-62551aea52a2",
-      "activity": "walking",
-      "calories": 160.3618927001953,
-      "day": "2026-11-05",
-      "distance": 1832.0897803455018,
-      "end_datetime": "2026-11-05T19:48:00.000+01:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-11-05T19:19:00.000+01:00"
-    },
     {
       "id": "62abbbe3-407c-4f5d-84eb-dc7c26730b1f",
       "activity": "strengthTraining",
@@ -593,6 +569,30 @@
       "label": null,
       "source": "confirmed",
       "start_datetime": "2026-11-16T07:36:00.000+01:00"
+    },
+    {
+      "id": "9348b7f2-a5bf-4684-8cd9-0d27b581ee01",
+      "activity": "walking",
+      "calories": 46.17084503173828,
+      "day": "2026-11-17",
+      "distance": null,
+      "end_datetime": "2026-11-17T11:32:00.000+01:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "confirmed",
+      "start_datetime": "2026-11-17T11:18:00.000+01:00"
+    },
+    {
+      "id": "ee838034-b448-49cb-9f27-2f56ce6a3815",
+      "activity": "tennis",
+      "calories": 364.4547119140625,
+      "day": "2026-11-17",
+      "distance": null,
+      "end_datetime": "2026-11-17T13:07:00.000+01:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "confirmed",
+      "start_datetime": "2026-11-17T12:08:00.000+01:00"
     }
   ]
 }
