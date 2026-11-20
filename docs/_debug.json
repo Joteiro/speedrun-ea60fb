@@ -1,95 +1,11 @@
 {
   "endpoint": "https://api.ouraring.com/v2/usercollection/workout",
   "rango_consultado": {
-    "start_date": "2025-10-15",
-    "end_date": "2026-11-19"
+    "start_date": "2025-10-16",
+    "end_date": "2026-11-20"
   },
   "total_workouts_en_rango": 1326,
   "workouts_ultimos_12_dias_crudos": [
-    {
-      "id": "17399882-4146-4419-8eb6-12304faf05e8",
-      "activity": "walking",
-      "calories": 70.70059204101562,
-      "day": "2026-11-07",
-      "distance": null,
-      "end_datetime": "2026-11-07T10:27:00.000+01:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-11-07T10:03:00.000+01:00"
-    },
-    {
-      "id": "1c9739f0-a06a-4b09-9786-18c68db8a57f",
-      "activity": "walking",
-      "calories": 45.258609771728516,
-      "day": "2026-11-07",
-      "distance": 293.6861377128692,
-      "end_datetime": "2026-11-07T11:13:00.000+01:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-11-07T10:59:00.000+01:00"
-    },
-    {
-      "id": "e2a0fbbd-5174-43a2-8a29-f935d80d2258",
-      "activity": "hiking",
-      "calories": 182.3841094970703,
-      "day": "2026-11-07",
-      "distance": 582.4852481661278,
-      "end_datetime": "2026-11-07T13:33:00.000+01:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-11-07T12:44:00.000+01:00"
-    },
-    {
-      "id": "c9286314-3b17-42d0-ba1e-80d5f1b7aa3f",
-      "activity": "walking",
-      "calories": 62.95170211791992,
-      "day": "2026-11-07",
-      "distance": null,
-      "end_datetime": "2026-11-07T14:31:00.000+01:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-11-07T14:14:00.000+01:00"
-    },
-    {
-      "id": "829b6c91-83e7-4700-9164-2d23738de4dd",
-      "activity": "walking",
-      "calories": 141.50457763671875,
-      "day": "2026-11-07",
-      "distance": 1600.4673776496004,
-      "end_datetime": "2026-11-07T15:42:00.000+01:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-11-07T15:07:00.000+01:00"
-    },
-    {
-      "id": "6740a199-030f-4fee-8bc5-08c82c3f2701",
-      "activity": "hiking",
-      "calories": 390.7643737792969,
-      "day": "2026-11-07",
-      "distance": 4310.322121147622,
-      "end_datetime": "2026-11-07T17:58:00.000+01:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-11-07T16:28:00.000+01:00"
-    },
-    {
-      "id": "62135e7d-7461-4461-a8b8-3731cff13dca",
-      "activity": "walking",
-      "calories": 107.68392181396484,
-      "day": "2026-11-07",
-      "distance": 647.2046704202168,
-      "end_datetime": "2026-11-07T21:27:00.000+01:00",
-      "intensity": "moderate",
-      "label": null,
-      "source": "confirmed",
-      "start_datetime": "2026-11-07T20:56:00.000+01:00"
-    },
     {
       "id": "52b6d8bb-8fb7-419d-8918-c1533c38740f",
       "activity": "walking",
@@ -533,6 +449,30 @@
       "label": null,
       "source": "confirmed",
       "start_datetime": "2026-11-18T18:28:00.000+01:00"
+    },
+    {
+      "id": "9a22c984-2b5b-48fb-bae5-894da26d802f",
+      "activity": "cycling",
+      "calories": 131.74717712402344,
+      "day": "2026-11-19",
+      "distance": 4800.621626511146,
+      "end_datetime": "2026-11-19T17:26:00.000+01:00",
+      "intensity": "moderate",
+      "label": null,
+      "source": "confirmed",
+      "start_datetime": "2026-11-19T16:47:00.000+01:00"
+    },
+    {
+      "id": "49b8d3ac-9030-497e-b493-188e1355dc21",
+      "activity": "boxing",
+      "calories": 868.0347900390625,
+      "day": "2026-11-19",
+      "distance": null,
+      "end_datetime": "2026-11-19T20:30:54.000+01:00",
+      "intensity": "hard",
+      "label": null,
+      "source": "manual",
+      "start_datetime": "2026-11-19T19:35:54.000+01:00"
     }
   ]
 }
